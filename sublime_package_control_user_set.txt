@@ -1,0 +1,18 @@
+{
+	"http_proxy": "http://192.168.236.23:8080",
+	"https_proxy": "https://192.168.236.23:8080",
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AngularJS",
+		"C Improved",
+		"C99",
+		"ConvertToUTF8",
+		"Package Control",
+		"PyYapf Python Formatter"
+	],
+	"proxy_password": "shu01lin",
+	"proxy_username": "Shinsei Okada"
+}

@@ -1,0 +1,326 @@
+#!/bin/sh
+
+
+function echo_title () {
+cat << _EOF
+                        __  __  ____   _____
+                  /\   |  \/  |/ __ \ / ____| 
+                 /  \  | \  / | |  | | (___ 
+                / /\ \ | |\/| | |  | |\___ \ 
+               / ____ \| |  | | |__| |____) | 
+              /_/    \_\_|  |_|\____/|_____/ 
+              OSS Framework for MoShell-10.0p 
+
+
+\$amosrb_pid = 2575
+
+_EOF
+}
+
+function read_prompt () {
+	read -p "${bsname}> " line
+	case $line in
+	exit|quit) exit 0 ;;
+	esac
+}
+
+function cmd_lt_error () {
+cat << _EOF
+
+140911-07:26:47 10.177.217.41 10.0p  stopfile=/tmp/7623
+Checking MOM version...ERBS_NODE_MODEL_E_1_181
+Parsing MOM (cached): /var/opt/ericsson/amos/jarxml/ERBS_NODE_MODEL_E_1_181.xml.cache.gz
+.......................................................................................Done.
+Using paramfile /opt/ericsson/amos/moshell/commonjars/pm/PARAM_ERBS_E_1_0.txt
+Parsing file /opt/ericsson/amos/moshell/commonjars/pm/PARAM_ERBS_E_1_0.txt ......................Done.
+Fetching IOR file...Done.
+Connecting to 10.177.217.41:56834 (CorbaSecurity=OFF, corba_class=2, java=1.6.0_51, jacoms=R86AX01, jacorb=R86AX01)
+**** Welcome to the Simple Mo Browser (version 3.0)!
+Trying file=/var/opt/ericsson/amos/moshell_logfiles/mosnbomc/logs_moshell/tempfiles/20140911-072622_7579/ior7579
+**** Test Construction OK
+****
+
+\$mobrowser_pid = $$
+
+Connected to 10.177.217.41 (SubNetwork=ONRM_ROOT_MO_R,MeContext=RBS96L,ManagedElement=1)
+
+Load Proxys for MOs of following type ...
+===================================================================================
+===================================================================================
+_EOF
+}
+
+function cmd_lt_DU () {
+cat << _EOF
+
+140911-07:35:25 10.177.217.41 10.0p ERBS_NODE_MODEL_E_1_181 stopfile=/tmp/7623
+
+Load Proxys for MOs of following type ...
+===================================================================================
+AuxPlugInUnit
+===================================================================================
+_EOF
+	classname="AuxPlugInUnit"
+}
+
+function cmd_lt_RU () {
+cat << _EOF
+
+140911-07:35:25 10.177.217.41 10.0p ERBS_NODE_MODEL_E_1_181 stopfile=/tmp/7623
+
+Load Proxys for MOs of following type ...
+===================================================================================
+PlugInUnit
+===================================================================================
+_EOF
+	classname="PlugInUnit"
+}
+
+function cmd_lt () {
+	case $line in
+	lt\ \^[pP]lug[Ii]n[uU]nit) cmd_lt_RU ;;
+	lt\ \^[aA]ux[pP]lug[Ii]n[uU]nit) cmd_lt_DU ;;
+	*) cmd_lt_error ;;
+	esac
+	read -p "Please Confirm [y/n]: " line
+
+	case $line in
+	y)
+		if [ ! -z ${classname} ] ; then
+			cat << _EOF
+
+Last MO:     1. Loaded    1 MOs. Total:     2 MOs. MO Class: ${classname}.
+
+_EOF
+		else
+			cat << _EOF
+
+
+_EOF
+		fi
+		;;
+	esac
+}
+
+function cmd_acc_class () {
+	cat << _EOF
+
+140911-07:37:29 10.177.217.41 10.0p ERBS_NODE_MODEL_E_1_181 stopfile=/tmp/7623
+Call Action restartunit on following 1 MOs ?
+===================================================================================
+    1  ${classname}
+===================================================================================
+_EOF
+	read -p "Call action restartunit on 1 MOs. Are you Sure [y/n] ? " line
+	case $line in
+	y) cat << _EOF
+
+=================================================================================================================
+Proxy  MO                                                             Action                         Nr of Params
+=================================================================================================================
+    1  ${classname}                                            restartUnit                    0
+ >>> Return value = null
+
+=================================================================================================================
+Total: 1 MOs attempted, 1 MOs actioned
+
+_EOF
+		;;
+	esac
+
+}
+
+function cmd_acc_error () {
+	cat << _EOF
+
+140911-10:51:39 10.177.217.41 10.0p ERBS_NODE_MODEL_E_1_181 stopfile=/tmp/11123
+
+=================================================================================================================
+Proxy  MO                                                             Action                         Nr of Params
+=================================================================================================================
+=================================================================================================================
+Total: 0 MOs attempted, 0 MOs actioned
+
+_EOF
+
+}
+
+
+function cmd_restartunit () {
+	case $line in
+	acc\ [pP]lug[Ii]n[uU]nit\ restartunit) cmd_acc_class ;;
+	acc\ [aA]ux[pP]lug[Ii]n[uU]nit\ restartunit) cmd_acc_class ;;
+	*) cmd_acc_error ;;
+	esac
+}
+
+function cmd_acc_mr_p1 () {
+	echo "Parameter 1 of 3, restartRank (enumRef-RestartRank):"
+	read -p "   Enter one of the following integers: 0:RESTART_WARM, 1:RESTART_REFRESH, 2:RESTART_COLD, 3:RESTART_COLDWTEST: " p1
+
+	if [ -z ${p1} ] ; then
+		echo "Empty value! Aborting..."
+		return 1
+	fi
+
+	case ${p1} in
+	[0-9]) return 0 ;;
+	esac
+
+	echo "Incorrect value! Aborting..."
+	return 1
+}
+
+function cmd_acc_mr_p2 () {
+	cat << _EOF
+
+Parameter 2 of 3, restartReason (enumRef-RestartReason):
+   Enter one of the following integers: 0:PLANNED_RECONFIGURATION, 1:UNPLANNED_NODE_EXTERNAL_PROBLEMS, 2:UNPLANNED_NODE_UPGRADE_PROBLEMS,
+3:UNPLANNED_O_AND_M_ISSUE, 4:UNPLANNED_CYCLIC_RECOVERY, 5:UNPLANNED_LOCKED_RESOURCES, 6:UNPLANNED_COLD_WITH_HW_TEST,
+_EOF
+	read -p "7:UNPLANNED_CALL_PROCESSING_DEGRADATION, 8:UNPLANNED_LOW_COVERAGE, 30:UPGRADE_BOARD_RESTART, 31:OPERATOR_CLASSIFIED_PROBLEMS: " p2
+
+	if [ -z ${p2} ] ; then
+		echo "Empty value! Aborting..."
+		return 1
+	fi
+
+	case ${p2} in
+	[0-9]|[1-9][0-9]) return 0 ;;
+	esac
+
+	echo "Incorrect value! Aborting..."
+	return 1
+
+}
+
+function cmd_acc_mr_p3 () {
+	echo
+	read -p "Parameter 3 of 3, restartInfo (string): " p3
+
+	if [ -z ${p3} ] ; then
+		echo "Empty value! Aborting..."
+		return 1
+	fi
+
+	return 0
+}
+
+function cmd_acc_mr_chk () {
+	echo "Last MO:     1. Loaded    1 MOs. Total:     2 MOs. MO Class: ConfigurationVersion."
+	case ${p1} in
+	[0-2]) 
+		case ${p2} in
+		[0-8]|30|31) return 0 ;;
+		esac
+		;;
+	esac
+	cat << _EOF
+!!!! Processing failure :se.ericsson.cello.moframework.ValueOutOfRangeException  TAG :"ValueOutOfRange" VARIABLES :"\$moTypeName" = "ManagedElement",
+"\$attrName" = "MeRestartRankvalue"
+_EOF
+
+	return 1
+}
+
+function cmd_acc_mr_ok () {
+	cat << _EOF
+ >>> Return value = null
+
+=================================================================================================================
+Total: 1 MOs attempted, 1 MOs actioned
+_EOF
+
+	return 0
+}
+
+function cmd_acc_manualrestart () {
+	cat << _EOF
+
+140911-10:37:58 10.177.217.41 10.0p ERBS_NODE_MODEL_E_1_181 stopfile=/tmp/2666
+Call Action manualrestart on following 1 MOs ?
+===================================================================================
+    0  ManagedElement=1
+INFO: The RBS node RBS96L will be restarted on CV: selfconfig_autocreated2
+REMINDER: If the node is being restarted to clear a fault, please make sure to run "dcge" or "dcgm" BEFORE the node restart.
+===================================================================================
+_EOF
+	read -p "Call action manualrestart on 1 MOs. Are you Sure [y/n] ? " line
+	
+	case $line in
+	y)
+		cat << _EOF
+
+=================================================================================================================
+Proxy  MO                                                             Action                         Nr of Params
+=================================================================================================================
+    0  ManagedElement=1                                               manualRestart                  3
+
+_EOF
+		local p1= p2= p3=
+		cmd_acc_mr_p1 && cmd_acc_mr_p2 && cmd_acc_mr_p3 && cmd_acc_mr_chk && cmd_acc_mr_ok && return
+		cat << _EOF
+
+=================================================================================================================
+Total: 1 MOs attempted, 0 MOs actioned
+_EOF
+		;;
+	*)
+		echo ;;
+	esac
+
+}
+
+function cmd_manualrestart () {
+	case $line in
+	acc\ 0\ manualrestart) cmd_acc_manualrestart ;;
+	*) cmd_acc_error ;;
+	esac
+}
+
+function main () {
+	if [ 1 -ne $# ] ; then
+		echo_title
+		cat << _EOF
+Checking ip contact...Not OK
+Cannot connect to MO service, exiting...
+_EOF
+		return 1
+	fi
+
+	local bsname=$1
+	local line=
+	local classname=
+
+	echo_title
+	cat << _EOF
+Checking ip contact...OK
+
+HELP MENU            : h
+BASIC MO COMMANDS    : m
+OTHER MO COMMANDS    : n
+OTHER COMMANDS       : o
+PM COMMANDS          : p
+QUIT                 : q
+
+_EOF
+
+	read_prompt
+
+	case $line in
+	acc*)
+		cmd_manualrestart
+		read_prompt
+		;;
+	*)
+		cmd_lt
+		read_prompt
+		cmd_restartunit
+		read_prompt
+		;;
+	esac
+
+
+}
+
+main $@

@@ -1,0 +1,55 @@
+　アノテーション型については、下記のような特徴があります。アノテーションはインターフェイスの特殊なものなので、アノテーション要素は文法的にはメソッドです。ただ、説明上は、アノテーション要素とした方が分かりやすいので、こちらを使います。
+
+アノテーション型宣言ではジェネリックは使えない
+アノテーション型は暗黙のうちにjava.lang.annotation.Annotationを拡張する（他のクラスからextendsできない）
+アノテーション要素はパラメータを持てない
+アノテーション要素は型パラメータを持てない
+アノテーション要素はthrows節を持てない
+
+
+Javascriptでsubmitボタン押下時にPOSTされるデータを追加したい場合があります。
+フォーム内に複数のボタンを設置した際に押されたボタンによってPOSTするデータを追加したい場合あったので、その時のメモです。
+
+■ Javascript
+function funcBtn() {
+    // エレメントを作成
+    var ele = document.createElement('input');
+    // データを設定
+    ele.setAttribute('type', 'hidden');
+    ele.setAttribute('name', 'hoge');
+    ele.setAttribute('value', 'テスト');
+    // 要素を追加
+    document.myForm.appendChild(ele);
+}
+■ HTML
+<form method="post" id="myForm" name="myForm">
+ 
+    （省略）
+ 
+    <input type="submit" name="btn" value="ボタン" onclick="funcBtn();" />
+ 
+</form>
+ボタン押下時、hiddenでhogeにテストという値がPOST送信されます。
+
+//Nested set modelの処理
+http://www.geocities.jp/mickindex/database/db_tree_ns.html
+
+https://docs.joomla.org/Using_nested_sets
+
+http://stackoverflow.com/questions/6535948/nested-models-in-backbone-js-how-to-approach
+
+http://memopad.bitter.jp/w3c/json/json_eval.html
+
+http://hakuhin.jp/js/json.html
+
+
+javascript redirect:
+<SCRIPT type="text/javascript">
+<!--
+setTimeout(function() {location.href="URL";}, 0);
+}
+-->
+</SCRIPT>
+
+<meta http-equiv="Refresh" content="0;URL=http://www.onlineconsultant.jp/">
+

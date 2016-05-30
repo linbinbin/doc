@@ -1,0 +1,50 @@
+Namingサーバ起動
+./orbit-name-server-2 -ORBIIOPIPv4=1 -ORBIIOPIPv6=0  -ORBLocalOnly=0 -ORBIIOPUSock=0 -ORBIIOPIPSock=49254 -ORBIIOPIPName=172.21.31.103 --key=NameService &
+
+./orbit-name-server-2 -ORBIIOPIPv4=1 -ORBIIOPIPv6=0  -ORBLocalOnly=0 -ORBIIOPUSock=0 -ORBIIOPIPSock=49254 -ORBIIOPIPName=10.10.20.68 --key=NameService &
+
+attachテスト用クライアント
+./NotificationIRPSystem-client-attach -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:49254/NameService cosnotifycomm-server-1.ref
+
+./NotificationIRPSystem-client-attach -ORBInitRef NameService=corbaloc:iiop:10.10.20.68:49254/NameService cosnotifycomm-server-1.ref
+
+./NotificationIRPSystem-client-attach -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:49254/NameService cosnotifycomm-server-1.ref
+
+./NotificationIRPSystem-client-detach -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:49254/NameService cosnotifycomm-server-1.ref OMC_
+./NotificationIRPSystem-client-detach -ORBInitRef NameService=corbaloc:iiop:10.10.20.68:49254/NameService cosnotifycomm-server-1.ref OMC_
+
+./CosNotifyComm-server -ORBInitRef 1
+
+get 1002 attachpushDelay.0
+get 1002 attachpushRes.0
+get 1002 subscriptionId.0
+get 1002 eventServerIOR.0
+
+set 1002 eventFilechange.0:1
+
+p *(char **)(evbt->evb->_buffer[0].remainder_of_body._value)
+
+ run -d -c enb-eri/
+ b src/NS_corba.c:597
+ 
+ p *(CommonIRPConstDefs_IRPTime *)(evbt->evb->_buffer[0].filterable_data._buffer[3].value._value)
+ 
+ set 1002 eventFilechange.0:1
+
+
+/* Wait for the child process to complete. */
+wait (&child_status);
+if (WIFEXITED (child_status))
+printf (“the child process exited normally, with exit code %d\n”,
+WEXITSTATUS (child_status));
+else
+printf (“the child process exited abnormally\n”);
+return 0;
+
+./name-resolve-server -ORBInitRef NameService=corbaloc:iiop:localhost:44444/NameService
+./name-resolve-server -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:49254/NameService
+./name-resolve-client -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:49254/NameService
+
+./name-resolve-client -ORBInitRef NameService=corbaloc:iiop:172.21.31.103:44444/NameService
+
+

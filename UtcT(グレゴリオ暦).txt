@@ -1,0 +1,870 @@
+Issue 4468: Interpretation of time field in UtcT? (orb_revision)
+Source: Triodia Technologies Pty Ltd (Mr. Michi Henning, michi(at)triodia.com)
+Nature: Uncategorized Issue
+Severity: 
+Summary: in the absence of an RTF for the time service, I'm sending this to the
+core RTF. (You could argue that this is a core issue anyway, since
+the core depends on the time service for messaging.)
+
+What is the interpretation of the time and tdf fields in a UtcT?
+
+The spec shows:
+
+	struct UtcT {
+		TimeT		time;		// 8 octets
+		unsigned long	inacclo;	// 4 octets
+		unsigned short	inacchi;	// 2 octets
+		TdfT		tdf;		// 2 octets
+						// total 16 octets.
+	};
+
+For TimeT, the spec says:
+
+	TimeT represents a single time value, which is 64 bits in size, and
+	holds the number of 100 nanoseconds that have passed since the base
+	time. For absolute time the base is 15 October 1582 00:00.
+
+For UtcT, the spec says:
+
+	UtcT defines the structure of the time value that is used
+	universally in this service. The basic value of time is of type
+	TimeT that is held in the time field. Whether a UtcT structure
+	is holding a relative or absolute time is determined by its history.
+	[...]
+	The tdf field holds time zone information. Implementation must
+	place the time displacement factor for the local time zone in this
+	field whenever they create a UTO.
+
+Resolution: see below
+Revised Text: Replace the text in section 1.3.2.4 of formal/00-06-26 and section 2.2.1.4 of ptc/00-04-02, 
+"Type UtcT" in its entirety with the following text: 
+
+    UtcT defines the structure of the time value that is used 
+    universally in this service. The basic value of time is of type 
+    TimeT that is held in the time field. Whether a UtcT structure 
+    is holding a relative time (that is, a duration) or an absolute 
+    time 
+    is determined by context; there is no explicit flag within the 
+    object holding that state information. (Note that, if a UtcT 
+    structure is used to hold a duration, its tdf must be set to 
+    zero.) 
+    The iacclo and inacchi fields together hold a 48-bit estimate of 
+    inaccuracy in the time field. These two fields together hold a 
+    value of type InaccuracyT packed into 48 bits. The tdf field 
+    holds time zone information. Implementations must place the 
+    time displacement factor for the local time zone in this field 
+    whenever they create a UTO that expresses absolute time. 
+
+    The time field of a UtcT used to express absolute time holds 
+    UTC time, irrespective of the local time zone. For example, 
+    to express the time 3:00pm in Germany (which is one hour east 
+    of the Universal Time Zone), the time field must be set to 2:00pm 
+    on the given date, and the tdf field must be set to 60. This means 
+    that, for any given UtcT value 'utc', the local time can be 
+    computed as 
+
+             utc.time + utc.tdf * 600,000,000 
+
+             Note that it is possible to produce correct UtcT values 
+             by always setting the tdf field to zero and only setting the time 
+             field to UTC time; however, implementations are encouraged to 
+             include the local time zone information for the UtcT values they 
+             produce. 
+
+
+Actions taken:
+August 9, 2001: received issue
+May 13, 2002: closed issue
+Discussion: 
+The proposed replacement text below need to be applied to both the original Time Service 
+and the Enhnced View of Time Specification ptc/00-04-02 
+
+End of Annotations:=====
+Date: Thu, 9 Aug 2001 07:09:06 +1000 (EST)
+From: Michi Henning <michi.henning@iona.com>
+Reply-To: Core Revision Task Force <orb_revision@omg.org>
+To: Core Revision Task Force <orb_revision@omg.org>
+cc: issues@omg.org
+Subject: Interpretation of time field in UtcT?
+Message-ID:
+<Pine.HPX.4.05.10108090649480.13166-100000@bobo.ooc.com.au>
+Organization: IONA Technologies
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-UIDL: 16!!!75Ee9)JD!!o`7e9
+
+Hi,
+
+in the absence of an RTF for the time service, I'm sending this to the
+core RTF. (You could argue that this is a core issue anyway, since
+the core depends on the time service for messaging.)
+
+What is the interpretation of the time and tdf fields in a UtcT?
+
+The spec shows:
+
+    struct UtcT {
+	   TimeT		time;		// 8 octets
+				unsigned long	inacclo;	// 4
+	   octets
+		unsigned short	inacchi;	// 2 octets
+			 TdfT			tdf;	// 2 octets
+								//
+	   total 16 octets.
+	   };
+
+For TimeT, the spec says:
+
+    TimeT represents a single time value, which is 64 bits in size,
+    and
+    holds the number of 100 nanoseconds that have passed since the
+    base
+    time. For absolute time the base is 15 October 1582 00:00.
+
+For UtcT, the spec says:
+
+    UtcT defines the structure of the time value that is used
+    universally in this service. The basic value of time is of type
+    TimeT that is held in the time field. Whether a UtcT structure
+    is holding a relative or absolute time is determined by its
+    history.
+    [...]
+    The tdf field holds time zone information. Implementation must
+    place the time displacement factor for the local time zone in this
+    field whenever they create a UTO.
+
+So, how do I encode absolute time. Let's assume I'm in Greenwich, and
+I
+want to encoded 2:00pm. Fine, I put the magic number for 2:00pm on
+some
+date into the time field, and I set the tdf field to zero because I'm
+on the zero meridian.
+
+Now, how do I encode 3:00pm German time? (Germany is one hour east of
+Greenwich, so when it is 2:00pm in Greenwich, it's 3:00pm in
+Frankfurt.)
+
+There are two interpretations for encoding 3:00pm in Frankfurt:
+
+      1) Put UTC time (that is, 2:00pm) into the time field and
+         set the tdf field to 60.
+
+	    With that interpretation, the time field always contains
+	    UTC time
+	       and the tdf field merely serves as an annotation of
+	    where the
+	       time was produced. To get to local time, I add the time
+	    and the
+	       tdf offset.
+
+	       2) Put German time (that is, 3:00pm) into the time
+                  field and
+		     set the tdf field to 60.
+
+		        With that interpretation, the time field
+		        always contains local
+			   time and the tdf field indicates the offset
+		        from UTC as for
+			   interpretation one. To get to UTC time, I
+		        subtract the tdf
+			   offset from the time field.
+
+Which interpretation is correct? (Both are meaningful.)
+
+Given the words in the spec about TimeT ("For absolute time the base
+is
+15 October 1582 00:00"), together with the fact that the description
+of
+UtcT doesn't say anything to the contrary, I have to assume that
+interpretation (1) is correct. This should be clarified in the spec
+though.
+(And example would do wonders!)
+
+Further, if I'm in Germany and want to *produce* a (local time) value
+of
+3:00pm, how do I have to encode it? Am I obliged to always set the tdf
+field to the local timezone offset? Or can I simply produce all times
+in UTC (for the time field) and always set the tdf field to zero?
+
+I believe that always setting the time field to UTC time and always
+setting
+the tdf field to zero is legal but, again, the spec doesn't say, so
+this
+should be clarified.
+
+Can people please look at their implementations of UtcT and speak up
+as
+to how they work? For what it's worth, ORBacus uses interpretation
+(1),
+and Orbix 2000 avoids the issue by always writing UTC time and always
+setting
+the tdf field to zero.
+
+Finally, the spec says that a UtcT can be either absolute or relative
+time.
+The spec never defines what "relative" time is but, from reading
+things
+in context, it appears that what is meant is a duration, such as
+"1 second" from now. This begs the question then why a UtcT is to be
+used
+for durations because the tdf field inside a UtcT has meaning only for
+absolute time. A duration would be better indicated by a raw TimeT
+(but
+a raw TimeT doesn't have an accuracy estimate, sigh...)
+
+Looks like the concepts of absolute time, absolute time with an
+accuracy
+estimate, duration, duration with an accuracy estimate, and local time
+have been badly mangled here :-(
+
+					Cheers,
+
+												Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+
+Date: Thu, 9 Aug 2001 07:22:17 +1000 (EST)
+From: Michi Henning <michi.henning@iona.com>
+Reply-To: Core Revision Task Force <orb_revision@omg.org>
+To: Core Revision Task Force <orb_revision@omg.org>
+Subject: Re: Interpretation of time field in UtcT?
+In-Reply-To:
+<Pine.HPX.4.05.10108090649480.13166-100000@bobo.ooc.com.au>
+Message-ID:
+<Pine.HPX.4.05.10108090720240.13166-100000@bobo.ooc.com.au>
+Organization: IONA Technologies
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-UIDL: DO]!!=6Fe9~O[d9QQVd9
+
+On Thu, 9 Aug 2001, Michi Henning wrote:
+
+> in the absence of an RTF for the time service, I'm sending this to
+  the
+> core RTF. (You could argue that this is a core issue anyway, since
+> the core depends on the time service for messaging.)
+
+Further to this issue, the spec says for UtcT:
+
+	The contents of this structure are intended to be opaque, but
+	in order to be able to marshal it correctly, at least the
+	types
+	of fields need to be identified.
+
+That clearly is nonsense because UtcT values need to be exchanged
+between
+different implementations. This means that not only the types, but the
+semantics of those types must be specified (but currently, they are
+not).
+
+The above sentence should be struck from the spec.
+
+					 Cheers,
+
+												Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+
+
+Sender: jon@corvette.floorboard.com
+Message-ID: <3B721A4C.457249BC@floorboard.com>
+Date: Wed, 08 Aug 2001 22:06:20 -0700
+From: Jonathan Biggar <jon@floorboard.com>
+X-Mailer: Mozilla 4.77 [en] (X11; U; SunOS 5.7 sun4u)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Core Revision Task Force <orb_revision@omg.org>
+CC: issues@omg.org
+Subject: Re: Interpretation of time field in UtcT?
+References:
+<Pine.HPX.4.05.10108090649480.13166-100000@bobo.ooc.com.au>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+X-UIDL: TH0!!,l7e9<8&!!1kO!!
+
+Michi Henning wrote:
+> What is the interpretation of the time and tdf fields in a UtcT?
+> 
+> The spec shows:
+> 
+>         struct UtcT {
+>                 TimeT           time;           // 8 octets
+>                 unsigned long   inacclo;        // 4 octets
+>                 unsigned short  inacchi;        // 2 octets
+>                 TdfT            tdf;            // 2 octets
+>                                                 // total 16 octets.
+>         };
+> 
+> For TimeT, the spec says:
+> 
+>         TimeT represents a single time value, which is 64 bits in
+size, and
+>         holds the number of 100 nanoseconds that have passed since
+the base
+>         time. For absolute time the base is 15 October 1582 00:00.
+> 
+> For UtcT, the spec says:
+> 
+>         UtcT defines the structure of the time value that is used
+>         universally in this service. The basic value of time is of
+type
+>         TimeT that is held in the time field. Whether a UtcT
+structure
+>         is holding a relative or absolute time is determined by its
+history.
+>         [...]
+>         The tdf field holds time zone information. Implementation
+must
+>         place the time displacement factor for the local time zone
+in this
+>         field whenever they create a UTO.
+> 
+> So, how do I encode absolute time. Let's assume I'm in Greenwich,
+and I
+> want to encoded 2:00pm. Fine, I put the magic number for 2:00pm on
+some
+> date into the time field, and I set the tdf field to zero because
+I'm
+> on the zero meridian.
+> 
+> Now, how do I encode 3:00pm German time? (Germany is one hour east
+of
+> Greenwich, so when it is 2:00pm in Greenwich, it's 3:00pm in
+Frankfurt.)
+> 
+> There are two interpretations for encoding 3:00pm in Frankfurt:
+> 
+>         1) Put UTC time (that is, 2:00pm) into the time field and
+>            set the tdf field to 60.
+> 
+>            With that interpretation, the time field always contains
+UTC time
+>            and the tdf field merely serves as an annotation of where
+the
+>            time was produced. To get to local time, I add the time
+and the
+>            tdf offset.
+> 
+>         2) Put German time (that is, 3:00pm) into the time field and
+>            set the tdf field to 60.
+> 
+>            With that interpretation, the time field always contains
+local
+>            time and the tdf field indicates the offset from UTC as
+for
+>            interpretation one. To get to UTC time, I subtract the
+tdf
+>            offset from the time field.
+> 
+> Which interpretation is correct? (Both are meaningful.)
+
+I think interpretation 1 is correct, from what I remember from the ISO
+standards when I used to hack ASN.1.  The timezone information is
+essentially optional, but can be useful to allow programs to
+accurately
+present the local time value.
+
+Interpretation 1 is also generally more efficient, since it allows
+comparison of UTC values without having to do additional math to shift
+the values to a common time zone.
+
+-- 
+Jon Biggar
+Floorboard Software
+jon@floorboard.com
+jon@biggar.org
+
+
+Date: Thu, 9 Aug 2001 15:19:06 +1000 (EST)
+From: Michi Henning <michi.henning@iona.com>
+To: Jonathan Biggar <jon@floorboard.com>
+cc: Core Revision Task Force <orb_revision@omg.org>
+Subject: Re: Interpretation of time field in UtcT?
+In-Reply-To: <3B721A4C.457249BC@floorboard.com>
+Message-ID:
+<Pine.HPX.4.05.10108091518230.13381-100000@bobo.ooc.com.au>
+Organization: IONA Technologies
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-UIDL: >Kl!!&bOd9*&0e9@1Me9
+
+On Wed, 8 Aug 2001, Jonathan Biggar wrote:
+
+> I think interpretation 1 is correct, from what I remember from the
+  ISO
+> standards when I used to hack ASN.1.  The timezone information is
+> essentially optional, but can be useful to allow programs to
+  accurately
+> present the local time value.
+> 
+> Interpretation 1 is also generally more efficient, since it allows
+> comparison of UTC values without having to do additional math to
+  shift
+> the values to a common time zone.
+
+I agree. Interpretation 1 is also my personal favourite :-)
+
+Jishnu, can we update the time spec to remove the amiguity?
+
+				    Cheers,
+
+											Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+
+Date: Mon, 13 Aug 2001 16:38:42 -0400
+From: Paul Kyzivat <pkyzivat@cisco.com>
+X-Mailer: Mozilla 4.76 [en]C-CCK-MCD   (Windows NT 5.0; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Core Revision Task Force <orb_revision@omg.org>
+CC: issues@omg.org
+Subject: Re: Interpretation of time field in UtcT?
+References:
+<Pine.HPX.4.05.10108090649480.13166-100000@bobo.ooc.com.au>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+X-UIDL: Vg~e9VX"e9KFG!!70:!!
+
+Michi Henning wrote:
+> 
+> Finally, the spec says that a UtcT can be either absolute or
+relative time.
+> The spec never defines what "relative" time is but, from reading
+things
+> in context, it appears that what is meant is a duration, such as
+> "1 second" from now. This begs the question then why a UtcT is to be
+used
+> for durations because the tdf field inside a UtcT has meaning only
+for
+> absolute time. A duration would be better indicated by a raw TimeT
+(but
+> a raw TimeT doesn't have an accuracy estimate, sigh...)
+
+Fundamentally I agree with you - absolute and relative times should be
+different types.
+
+But just to stretch for an interpretation - if you have absolute times
+T1 and T2, and a relative time DT = T2-T1, doesn't it make a little
+sense for the DT.tdf = T2.tdf - T1.tdf? So, given T1 and DT you can
+faithfully reconstruct T2.
+
+	   Paul
+
+
+Date: Tue, 14 Aug 2001 07:09:34 +1000 (EST)
+From: Michi Henning <michi.henning@iona.com>
+To: Paul Kyzivat <pkyzivat@cisco.com>
+cc: Core Revision Task Force <orb_revision@omg.org>
+Subject: Re: Interpretation of time field in UtcT?
+In-Reply-To: <3B783AD2.9DAD4EC0@cisco.com>
+Message-ID:
+<Pine.HPX.4.05.10108140708440.11421-100000@bobo.ooc.com.au>
+Organization: IONA Technologies
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-UIDL: NoF!!!nIe9`Cpd9-Z!!!
+
+On Mon, 13 Aug 2001, Paul Kyzivat wrote:
+
+> Fundamentally I agree with you - absolute and relative times should
+  be
+> different types.
+> 
+> But just to stretch for an interpretation - if you have absolute
+  times
+> T1 and T2, and a relative time DT = T2-T1, doesn't it make a little
+> sense for the DT.tdf = T2.tdf - T1.tdf? So, given T1 and DT you can
+> faithfully reconstruct T2.
+
+Interesting idea! But I don't think that makes sense, because it
+doesn't
+make sense for T1 and T2 to have non-zero tdf anyway, because tdf
+simply
+doesn't make sense for a duration...
+
+					Cheers,
+
+												Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+Date: Wed, 15 Aug 2001 14:32:19 -0400
+From: Jishnu Mukerji <jishnu_mukerji@hp.com>
+Reply-To: jishnu_mukerji@hp.com
+Organization: Hewlett-Packard EIAL, Florham Park NJ, USA
+X-Mailer: Mozilla 4.7 [en] (Win98; I)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Michi Henning <michi.henning@iona.com>
+Cc: Jonathan Biggar <jon@floorboard.com>,
+   Core Revision Task Force <orb_revision@omg.org>
+Subject: Re: Interpretation of time field in UtcT?
+References:
+<Pine.HPX.4.05.10108091518230.13381-100000@bobo.ooc.com.au>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+X-UIDL: EHm!!V1jd9kQ4e9j9c!!
+
+
+
+Michi Henning wrote:
+> 
+> On Wed, 8 Aug 2001, Jonathan Biggar wrote:
+> 
+> > I think interpretation 1 is correct, from what I remember from the
+ISO
+> > standards when I used to hack ASN.1.  The timezone information is
+> > essentially optional, but can be useful to allow programs to
+accurately
+> > present the local time value.
+> >
+> > Interpretation 1 is also generally more efficient, since it allows
+> > comparison of UTC values without having to do additional math to
+shift
+> > the values to a common time zone.
+> 
+> I agree. Interpretation 1 is also my personal favourite :-)
+> 
+> Jishnu, can we update the time spec to remove the amiguity?
+
+Sure. Propose a precise wording in a resolution and we will vote it
+through the Core RTF.
+
+BTW, since I was the poor sap stucky who had to put together a
+passable
+original Time Service spec:-(, I can say with some authority that the
+intended interpretation was interpretation 1.:-)
+
+Jishnu.
+
+
+Date: Thu, 16 Aug 2001 17:00:32 +1000 (EST)
+From: Michi Henning <michi.henning@iona.com>
+Reply-To: Core Revision Task Force <orb_revision@omg.org>
+To: Core Revision Task Force <orb_revision@omg.org>
+Subject: Proposal for 4468
+Message-ID:
+<Pine.HPX.4.05.10108161640580.12948-100000@bobo.ooc.com.au>
+Organization: IONA Technologies
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-UIDL: *p/e9#*d!!$$3!!a6[d9
+
+Proposal for 4468:
+
+Replace the text in section 1.3.2.4, "Type UtcT" in its entirety with
+the following text:
+
+    UtcT defines the structure of the time value that is used
+    universally in this service. The basic value of time is of type
+    TimeT that is held in the time field. Whether a UtcT structure
+    is holding a relative time (that is, a duration) or an absolute
+    time
+    is determined by context; there is no explicit flag within the
+    object holding that state information. (Note that, if a UtcT
+    structure is used to hold a duration, its tdf must be set to
+    zero.)
+    The iacclo and inacchi fields together hold a 48-bit estimate of
+    inaccuracy in the time field. These two fields together hold a
+    value of type InaccuracyT packed into 48 bits. The tdf field
+    holds time zone information. Implementations must place the
+    time displacement factor for the local time zone in this field
+    whenever they create a UTO that expresses absolute time.
+
+    The time field of a UtcT used to express absolute time holds
+    UTC time, irrespective of the local time zone. For example,
+    to express the time 3:00pm in Germany (which is one hour east
+    of the Universal Time Zone), the time field must be set to 2:00pm
+    on the given date, and the tdf field must be set to 60. This means
+    that, for any given UtcT value 'utc', the local time can be
+    computed as
+
+	     utc.time + utc.tdf * 600,000,000
+	     
+	     Note that it is possible to produce correct UtcT values
+	     by always
+	     setting the tdf field to zero and only setting the time
+	     field to
+	     UTC time; however, implementations are encouraged to
+	     include
+	     the local time zone information for the UtcT values they
+	     produce.
+	     
+							Cheers,
+
+														Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+
+X-Sender: giddiv@postel
+X-Mailer: QUALCOMM Windows Eudora Version 5.1
+Date: Fri, 31 Aug 2001 14:09:42 -0400
+To: Core Revision Task Force <orb_revision@omg.org>
+From: Victor Giddings <victor.giddings@ois.com>
+Subject: Re: Proposal for 4468
+Cc: Core Revision Task Force <orb_revision@omg.org>
+In-Reply-To:
+<Pine.HPX.4.05.10108161640580.12948-100000@bobo.ooc.com.au>
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+	      boundary="=====================_14420665==_.ALT"
+X-UIDL: AD2!!li*e9(i0e9T,'e9
+
+At 05:00 PM 8/16/2001 +1000, Michi Henning wrote:
+Proposal for 4468:
+
+Replace the text in section 1.3.2.4, "Type UtcT" in its entirety with
+the following text:
+
+    UtcT defines the structure of the time value that is used
+    universally in this service. The basic value of time is of type
+    TimeT that is held in the time field. Whether a UtcT structure
+    is holding a relative time (that is, a duration) or an absolute
+    time
+    is determined by context; there is no explicit flag within the
+    object holding that state information. (Note that, if a UtcT
+    structure is used to hold a duration, its tdf must be set to
+    zero.)
+    The iacclo and inacchi fields together hold a 48-bit estimate of
+    inaccuracy in the time field. These two fields together hold a
+    value of type InaccuracyT packed into 48 bits. The tdf field
+    holds time zone information. Implementations must place the
+    time displacement factor for the local time zone in this field
+    whenever they create a UTO that expresses absolute time.
+
+    The time field of a UtcT used to express absolute time holds
+    UTC time, irrespective of the local time zone. For example,
+    to express the time 3:00pm in Germany (which is one hour east
+    of the Universal Time Zone), the time field must be set to 2:00pm
+    on the given date, and the tdf field must be set to 60. This means
+    that, for any given UtcT value 'utc', the local time can be
+    computed as
+
+	     utc.time + utc.tdf * 600,000,000
+	     
+	     Note that it is possible to produce correct UtcT values
+	     by always
+	     setting the tdf field to zero and only setting the time
+	     field to
+	     UTC time; however, implementations are encouraged to
+	     include
+	     the local time zone information for the UtcT values they
+	     produce.
+	     
+							Cheers,
+
+														Michi.
+--
+Michi Henning                             +61 7 3324 9633
+Chief CORBA Scientist                     +61 4 1118 2700 (mobile)
+IONA Technologies                         +61 7 3324 9799 (fax)
+Total Business Integration
+http://www.ooc.com.au/staff/michi
+
+The following note on RT Profile for UML brings up a relevant, but
+unfortunately conflicting ISO statndard for timestamps:
+Delivered-To: giddiv@ois.com 
+From: David Flater <dflater@nist.gov> 
+Date: Fri, 31 Aug 2001 10:34:14 -0400 (EDT) 
+To: realtime@omg.org, rtad@omg.org, rtad-eval@omg.org 
+Subject: nit, UML Profile for Schedulability, Performance, and Time 
+X-Mailer: VM 6.72 under 21.1 (patch 10) "Capitol Reef" XEmacs Lucid 
+X-Public-Key: Available at
+http://www.mel.nist.gov/msidstaff/flater/flater.htm 
+X-Keyserver: wwwkeys.pgp.net 
+Sender: omg-list-errors@emerald.omg.org 
+
+Hello,
+Understanding that the time frame for kibitzing the UML Profile for 
+Schedulability, Performance, and Time is well past, I offer the 
+following only as a possible friendly amendment, and FYI.
+Referencing ad/2001-06-14, document-page 91, alias PDF-page 105: 
+syntax for timestamps:
+While it is true that there is information being captured here that is 
+not covered by ISO 8601, the syntax that overlaps with ISO 8601 has 
+some possibly gratuitous differences with that standard. If the 
+change is painless, you may wish to consider harmonizing with that 
+standard to the extent possible.
+My favorite summary of ISO 8601 is available at 
+http://www.cl.cam.ac.uk/~mgk25/iso-time.html
+Regards, 
+-- 
+David Flater, National Institute of Standards and Technology, U.S.A.
+
+The relevant text from the Web page is:
+
+Time Zone
+Without any further additions, a date and time as written above is
+assumed to be in some local time zone. In order to indicate that a
+time is measured in Universal Time (UTC), you can append a capital
+letter Z to a time as in 
+23:59:59Z or 2359Z 
+[The Z stands for the "zero meridian", which goes through Greenwich in
+London, and it is also commonly used in radio communication where it
+is pronounced "Zulu" (the word for Z in the international radio
+alphabet). Universal Time (sometimes also called "Zulu Time") was
+called Greenwich Mean Time (GMT) before 1972, however this term should
+no longer be used. Since the introduction of an international atomic
+time scale, almost all existing civil time zones are now related to
+UTC, which is slightly different from the old and now unused GMT.] 
+The strings 
++hh:mm, +hhmm, or +hh
+can be added to the time to indicate that the used local time zone is
+hh hours and mm minutes ahead of UTC. For time zones west of the zero
+meridian, which are behind UTC, the notation 
+-hh:mm, -hhmm, or -hh
+is used instead. For example, Central European Time (CET) is +0100 and
+U.S./Canadian Eastern Standard Time (EST) is -0500. The following
+strings all indicate the same point of time: 
+12:00Z = 13:00+01:00 = 0700-0500
+There exists no international standard that specifies abbreviations
+for civil time zones like CET, EST, etc. and sometimes the same
+abbreviation is even used for two very different time zones. In
+addition, politicians enjoy modifying the rules for civil time zones,
+especially for daylight saving times, every few years, so the only
+really reliable way of describing a local time zone is to specify
+numerically the difference of local time to UTC. Better use directly
+UTC as your only time zone where this is possible and then you do not
+have to worry about time zones and daylight saving time changes at
+all. 
+
+
+Victor Giddings		victor.giddings@ois.com
+Senior Product Engineer	+1 703 295 6500
+Objective Interface Systems    Fax: +1 703 295 6501 
+
+Date: Mon, 08 Oct 2001 15:04:27 -0400
+From: Jishnu Mukerji <jishnu_mukerji@hp.com>
+Reply-To: jishnu_mukerji@hp.com
+Organization: Hewlett-Packard SSO Staff, Florham Park NJ, USA
+X-Mailer: Mozilla 4.78 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: orb_revision@omg.org
+Subject: Issue 4468 proposed resolution
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+X-UIDL: UJi!!(>\d9D1X!!pjYd9
+
+The following resolution will appear on the vote that will be sent out
+on Friday 10/13/01, unless there is substantial technical objection.
+
+Thanks,
+
+Jishnu.
+_______________________________________________________________________
+
+Issue 4468: Interpretation of time field in UtcT? (orb_revision)
+
+Click here for this issue's archive.
+Source: IONA (Mr. Michi Henning, michi.henning@iona.com)
+Nature: Uncategorized Issue
+Severity:
+Summary: 
+in the absence of an RTF for the time service, I'm sending this to the
+core RTF. (You could argue that this is a core issue anyway, since
+the core depends on the time service for messaging.)
+
+What is the interpretation of the time and tdf fields in a UtcT?
+
+The spec shows:
+
+        struct UtcT {
+                TimeT           time;           // 8 octets
+                unsigned long   inacclo;        // 4 octets
+                unsigned short  inacchi;        // 2 octets
+                TdfT            tdf;            // 2 octets
+                                                // total 16 octets.
+        };
+
+For TimeT, the spec says:
+
+        TimeT represents a single time value, which is 64 bits in
+        size,
+and
+        holds the number of 100 nanoseconds that have passed since the
+base
+        time. For absolute time the base is 15 October 1582 00:00.
+
+For UtcT, the spec says:
+
+        UtcT defines the structure of the time value that is used
+        universally in this service. The basic value of time is of
+        type
+        TimeT that is held in the time field. Whether a UtcT structure
+        is holding a relative or absolute time is determined by its
+history.
+        [...]
+        The tdf field holds time zone information. Implementation must
+        place the time displacement factor for the local time zone in
+this
+        field whenever they create a UTO.
+
+Resolution:
+The proposed replacement text below need to be applied to both the
+original Time Service
+and the Enhnced View of Time Specification ptc/00-04-02
+Revised Text:
+Replace the text in section 1.3.2.4 of formal/00-06-26 and section
+2.2.1.4 of ptc/00-04-02, 
+"Type UtcT" in its entirety with the following text:
+
+    UtcT defines the structure of the time value that is used
+    universally in this service. The basic value of time is of type
+    TimeT that is held in the time field. Whether a UtcT structure
+    is holding a relative time (that is, a duration) or an absolute
+    time
+    is determined by context; there is no explicit flag within the
+    object holding that state information. (Note that, if a UtcT
+    structure is used to hold a duration, its tdf must be set to
+    zero.)
+    The iacclo and inacchi fields together hold a 48-bit estimate of
+    inaccuracy in the time field. These two fields together hold a
+    value of type InaccuracyT packed into 48 bits. The tdf field
+    holds time zone information. Implementations must place the
+    time displacement factor for the local time zone in this field
+    whenever they create a UTO that expresses absolute time.
+
+    The time field of a UtcT used to express absolute time holds
+    UTC time, irrespective of the local time zone. For example,
+    to express the time 3:00pm in Germany (which is one hour east
+    of the Universal Time Zone), the time field must be set to 2:00pm
+    on the given date, and the tdf field must be set to 60. This means
+    that, for any given UtcT value 'utc', the local time can be
+    computed as
+
+             utc.time + utc.tdf * 600,000,000
+             
+             Note that it is possible to produce correct UtcT values
+             by always
+             setting the tdf field to zero and only setting the time
+             field to
+             UTC time; however, implementations are encouraged to
+             include
+             the local time zone information for the UtcT values they
+             produce.

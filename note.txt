@@ -1,0 +1,460 @@
+・文字列⇔数値
+　基本の考えかた、文字列をまず数値かして、あとプログラム上の表現が自由
+　C言語　itoa、ltoa、snprintfなど、数値→文字列
+　       strtol,など文字列→数値
+　python binasciiモジュール、文字列⇔数値
+　       atoi廃棄、int()など組込み関数、文字列→数値
+　C#     Encoding.ASCII.GetString GetBytes利用
+　
+ ★C# dllファイルのPath指定について、csprojファイルの<HintPath>で設定。
+   
+　
+・Linuxカーネル
+　inline関数全部static
+　likely＆unlikely　
+　カーネルのstackはサイズ固定かつ小さい
+　
+　
+　int num16 = Convert.ToInt32("FFFF", 16);
+　int num = 65535;
+  string str = num.ToString("X");
+  
+
+　GDB任意の関数をCallする方法
+　
+　(gdb) set $box = (Box*)malloc(sizeof(Box))
+　(gdb) set $box->length = 3
+　(gdb) set $box->width = 4
+　(gdb) set $box->height = 5
+　(gdb) call get_capacity(*$box)
+　　　box capacity: 60
+　　　$1 = 60
+ソース：
+struct Box {
+  int length;
+  int width;
+  int height;
+};
+
+int get_capacity(const struct Box& box)
+{
+  int capacity = box.length * box.width * box.height;
+  printf("box capacity: %d\n", capacity);
+  return capacity;
+} 
+
+
+int main()
+{
+  printf("main called no functions\n");
+  return 0;
+}
+
+　Split debugging info -- symbols
+　strip、eu-strip
+　
+
+ 
+ ★git初期化
+ $ git init .
+ ★gitファイル追加
+ $ git add *
+ $ git status
+ ★不要のファイル削除
+ $ git rm --cached superlists/*.pyc
+ ★省略リスト追加
+ $ echo "*.pyc" > .gitignore
+ ★コミット
+ $ git add .gitignore
+ $ git commit
+ 
+ ★hgコマンド
+ ログ詳細確認：hg log -v -rxxxx
+ 
+ ★ctage
+ ctags -R `find -name *.[ch]`
+ 
+ ★find
+ find . -type f -name xxx -exec grep -nH yyyy {} \;
+ 
+ Shell
+　Alt+.　　　　⇒　前回コマンドのパラメータ再度入力
+　＾old＾new　 ⇒　前回コマンドのold部分をnewに入れ替えて再度実行
+　date -d@1234567890xxx ⇒　秒から対応の日付に変更
+　　　[root@localhost sim_env]# date -d@0
+　　　1970年  1月  1日 木曜日 09:00:00 JST
+　
+　du -s * | sort -n | tail
+　ssh user@server bash < /path/to/local/script.sh
+
+ ★history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+
+　Shell変数はコマンドとして実行する方法
+　１、`${var}` 
+　２、$(${var}) 
+　３、${var}【推奨しない】
+　例：
+　　　VAR2='cd /home && echo "hello" && echo "good"'
+　　　echo ${VAR2}|awk '{run=$0;system(run)}'
+
+ ★${#*}和${#@}表示位置パラメータの数
+   target=cmnif_1
+   SUF={target#*cmnif}
+   SUF: _1
+ ★${#array[*]}、${#array[@]}配列長
+
+ ★${var#Pattern}, ${var##Pattern}
+   先頭から最短Pattern、最長Pattern
+   ${var%Pattern}, ${var%%Pattern}
+   後尾から最短Pattern、最長Pattern
+     
+  grep -r '^struct task_struct ' include
+  ★forward declaration
+   
+    diff -urP Original_Directory/xxx/xxx/xxx/xxx.c Modified_Directory/xxx/xxx/xxx/xxx.c
+    --- Original_Directory/xxx/xxx/xxx/xxx.c [date]
+    +++ Modified_Directory/xxx/xxx/xxx/xxx.c [date]
+    
+　　# set.apply.awk
+    BEGIN {
+        n = 1 
+    }
+    {
+        if($0 ~ /^diff -urP /){
+            print "HT:"
+            print "HT: 1-" n ". apply following patch"
+            print "HT:"
+            print $0
+            n++ 
+        }else{
+            print $0
+        }   
+    }
+
+ ★C言語
+ csvファイルを#include
+ #include <stdio.h>
+ int main(void) {
+   #blackmagicinclude("file.txt", content)
+   /*
+   equiv: char[] content = "This is\na little\ntext file";
+   */
+   printf("%s", content);
+ }
+ 
+ $ echo hello world > a
+ $ xxd -i a
+ 
+ unsigned char a[] = {
+  0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x0a
+ };
+ unsigned int a_len = 12;
+
+ data.h = (12, 13, 14, 15)
+ char my_file[] = {
+   #include "data.h"
+ };
+
+ ★trapにより、shellのDebug
+ EXIT    全体スクリプトorあるコマンドから終了時発生
+ ERR     あるコマンドからエラー時発生
+ DEBUG   各コマンド実行前発生
+ $ cat -n exp1.sh
+ 1  ERRTRAP()
+ 2  {
+ 3    echo "[LINE:$1] Error: Command or function exited with status $?"
+ 4  }
+ 5  foo()
+ 6  {
+ 7    return 1;
+ 8  }
+ 9  trap \'ERRTRAP $LINENO\' ERR
+ 
+ 変数監視
+ $ cat -n exp2.sh
+ 1  #!/bin/bash
+ 2  trap \'echo “before execute line:$LINENO, a=$a,b=$b,c=$c”\' DEBUG
+ 3  a=1
+ 4  if [ "$a" -eq 1 ]
+ 5  then
+ 6     b=2
+ 7  else
+ 8     b=1
+ 9  fi
+ 10  c=3
+ 11  echo "end"
+ 
+ ★Tパイプの使用
+ ipaddr=`/sbin/ifconfig | grep \'inet addr:\' | grep -v \'127.0.0.1\'
+ | tee temp.txt | cut -d : -f3 | awk \'{print $1}\'`
+ echo $ipaddr
+ 
+ ★Debug Hookの使用
+ $ cat -n exp3.sh
+     1  DEBUG()
+     2  {
+     3  if [ "$DEBUG" = "true" ]; then
+     4      $@
+     5  fi
+     6  }
+     7  a=1
+     8  DEBUG echo "a=$a"
+     9  if [ "$a" -eq 1 ]
+    10  then
+    11       b=2
+    12  else
+    13       b=1
+    14  fi
+    15  DEBUG echo "b=$b"
+    16  c=3
+    17  DEBUG echo "c=$c"
+ 
+ ★シェール実行オプションよりの制御
+ $ sh -x exp2.sh
+ 一行づつ実行
+ 
+ $ cat -n exp4.sh
+ 文法チェック
+ 
+ ★Makefile内のShell使用
+ http://www.jsk.t.u-tokyo.ac.jp/~k-okada/makefile/
+ １、Target外の引用
+     #for auto-generated test scripts
+     AUTO_GENERATED := $(SRC_BASE)/../targets/zeus/scripts/Common/auto_generated
+     _:=$(shell mkdir -p $(AUTO_GENERATED)/test_memmap)
+ ２、Target内の引用
+     @if [ ! -d $(AUTO_GENERATED) ]; then \
+         echo "no mkdir" ; mkdir -p  $(AUTO_GENERATED);\
+     fi
+         cp -f $(SRC_BASE)/$(TARGET)/csv/output/test/dsu-device.simics $(AUTO_GENERATED)/.
+
+ ★型の変換-int,str,char,float,ord,hex,oct等
+ int(x [,base ])         string x-> int
+ long(x [,base ])        string x-> long
+ float(x )               string x-> float
+ complex(real [,imag ])  create complex
+ str(x )                 int x -> string
+ repr(x )                xから文字列の大きさを制限したオブジェクト表現を作り出す
+ eval(str x)             string xから内容を求める    
+ tuple(s )               配列s -> tuple    
+ list(s )                配列s -> list    
+ chr(x )                 int x -> char    
+ unichr(x )              int x -> Unicode char   
+ ord(x )                 char x -> int    
+ hex(x )                 int x -> str(16)    
+ oct(x )                 int x -> str(8)
+ 
+ ★TCP/IP
+ TCP@4 -- Transport(Segment)，IP@3 -- Network(Packet)，ARP@2 -- Data Link(Frame)
+ 
+ ★self._up subクラスの上位クラス取得
+ 
+ ★forkについて、
+ http://coolshell.cn/articles/7965.html
+ #include <stdio.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+ int main(void)
+ {
+   int i;
+   for(i=0; i<2; i++){
+      fork();
+      printf("-");
+   }
+   return 0;
+ }
+ 8個"-"が出力される。
+ printf("-\n"); or fflush(stdout);
+ 6個"-"が出力される。
+ 
+ ★decorator
+ http://coolshell.cn/articles/11265.html
+ 本質：
+ @decorator
+ func():
+    pass
+ -> func = decorator(func)
+ 
+ @decorator_one
+ @decorator_two
+ def func():
+    pass
+ -> func = decorator_one(decorator_two(func))
+ 
+ @decorator(arg1, arg2)
+ def func():
+    pass
+ -> func = decorator(arg1,arg2)(func)
+ 
+ *args and **kwargs
+ 「*」 パラメータを保有する配列
+ 「**」パラメータを保有する辞書
+ 
+ ★フェラボリ数列
+ def fact(x):
+    return x > 1 and x * fact(x - 1) or 1
+ print fact(6)
+
+ f = lambda x: x and x * f(x - 1) or 1
+ print f(6)
+
+ import operator as op
+ import functional as f
+ fact = lambda x: f.foldl(op.mul, 1, xrange(2, x + 1))
+ print fact(6)
+ 
+ ★reduce(function, iterable[, initializer])
+ iterable の要素に対して、iterableを単一の値に短縮するような形で 2 つの引数をもつ function を左から右に累積的に適用します。例えば、 reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) は ((((1+2)+3)+4)+5) を計算します。左引数 x は累計の値になり、右引数 y は iterable から取り出した更新値になります。オプションの initializer が存在する場合、計算の際に iterable の先頭に置かれます。また、 iterable が空の場合には標準の値になります。 initializer が与えられておらず、 iterable が単一の要素しか持っていない場合、最初の要素が返されます。
+ http://momijiame.tumblr.com/post/62720384334/python-reduce
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+
+ if __name__ == '__main__':
+     query_string_dict = {
+         'name': 'amedama',
+         'sex': 'male',
+         'location': 'tokyo',
+     }
+     query_string = reduce(lambda l, (k, v): '%s%s=%s&' % (l, k, v),
+                          query_string_dict.items(), '?')
+     print(query_string[:-1])
+    
+ ?location=tokyo&name=amedama&sex=male
+ 
+ ★リスト内包表記
+ http://python.civic-apps.com/list-comprehensions/
+ 繰り返し処理でリスト生成する時の構文
+ >> aray = [1, 2, 3]
+ >>> [x*2 for x in ary]    #aryの各要素を*2してリストを生成する。
+ [2, 4, 6]
+ >> ary
+ [1, 2, 3]                 #aryに変更はない
+ 
+ mapとlamda式での同等の記述
+ mapとlambda式でも同様の処理が簡潔に記述できるが、リスト内包表記よりもおおむね低速。（forよりは速い)
+ >>> ary = [1,2,3]
+ >>> map(lambda x: x*2, ary)
+ [2, 4, 6]
+ 
+ >>> ary = [1,2,3]
+ >>> [x for x in ary if x % 2 == 1]    # 奇数である要素(x % 2 == 1)を抽出したリストを作る。
+ [1, 3]
+
+ #filterを使った同等のコード
+ >>> ary = [1,2,3]
+ >>> filter(lambda x:x%2==1, ary) #lambda式がTrueを返す要素を抽出したリストを作る
+ [1, 3]
+
+ #リスト内包表記の方が、抽出した上で演算できるので応用範囲が広い
+ >>> ary = [1,2,3]
+ >>> [x*2 for x in ary if x % 2 == 1]    # 奇数を抽出し、*2したリストを作る。
+ [2, 6]
+ #filterとmapを使った同等のコード（分かりにくい）
+ >>> map(lambda x:x*2, filter(lambda x: x%2==1, ary))
+ [2, 6]
+ 
+ >>> [(x,y) for x in range(3) for y in range(3,6)]
+ [(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)]
+ >>> [x*y for x in range(3) for y in range(3,6)]
+ [0, 0, 0, 3, 4, 5, 6, 8, 10]
+ 
+ ★Function Programming
+ num =[2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8]
+ positive_num = filter(lambda x: x>0, num) (or range(9))
+ average = reduce(lambda x,y: x+y, positive_num) / len( positive_num )
+
+ ★Pythonでの3項演算子の記述はどうするのか？
+ x = 10 if a == 1 else 20
+
+ ★__xxx__ 形式の特殊メソッド、特殊フィールド
+ http://python.civic-apps.com/__xxx__/
+ __init__
+ コンストラクタ。インスタンスを生成する際に呼び出される。
+ 
+ __getitem__, __setitem__
+ 添字付きアクセスに対する[]演算子オーバーロード。添字でのアクセスが可能なオブジェクトになる。
+ >>> class MyList(object):
+ ...   def __getitem__(self, key):
+ ...     return key+10
+ ...   def __setitem__(self, key, value):
+ ...     print "set {0}={1}".format(key, value)
+ >>> ml = MyList()
+ >>> ml[0]
+ 10
+ >>> ml[1]
+ 11
+ >>> ml[0] = 10
+ set 0=10
+ 
+ __iter__
+イテレータが要求された際に呼びだされるメソッド。イテレータオブジェクトを返す。
+ __enter__, __exit__
+ with文に対する入り口、出口の処理。
+ __cmp__
+ 比較演算子用。__cmp__(self, other)の関数は、self < otherの時に負の値。self == otherの時に0。self > otherの時に正の値を返すように実装する。これでself < otherのように比較演算子が使用できるようになる。__lt__, __le__のような拡張比較メソッドもあり、それを実装した場合は、__cmp__よりも優先される。拡張比較メソッド。
+※Python3系では、__cmp__は廃止されて、拡張比較メソッドで実装するようになった。__lt__, __eq__を実装することで同等となる。 __slots__
+ オブジェクトがもつ属性のリスト。オブジェクトに属性を追加できないように制限できる。詳細は__slot__を参照。
+__all__
+import *した時に、importするモジュールのリスト。パッケージの__init__.pyのモジュールで使用する。
+__all__ = ["echo", "surround", "reverse"]　
+このパッケージをインポートした時に、3つのモジュールがインポートされる。
+
+ ★リフレクション（reflection)
+ 情報工学においてリフレクション (reflection) とは、プログラムの実行過程でプログラム自身の構造を読み取ったり書き換えたりする技術のことである。
+ # リフレクションなし
+ obj = Foo()
+ obj.hello()
+ 
+ # リフレクション
+ class_name = "Foo"
+ method = "hello"
+ obj = globals()[class_name]()
+ getattr(obj, method)()
+ 
+ # eval
+ eval("Foo().hello()")
+ 
+ ★JavaScriptの属性名（String）からクラスの属性など取得
+ // リフレクションなし
+ var foo = new Foo();
+ foo.hello();
+ // リフレクション
+ var foo = this['Foo'];
+ var methodName = 'hello';
+ (new foo())[methodName]();
+
+ ★MetaClassについて、
+ http://my.oschina.net/memorybox/blog/127615
+ 論理的にMetaClassはClassを作るためのClassであり、Pythonの"class" Keyword及びtypeは同じ機能をもつ。
+ MyClass=MetaClass()
+ MyObject=MyClass()
+ 
+ MyClass=type('MyClass', (), {})
+ 
+ type(class_name, present_class（or None），attr_dict（name&value）)
+ __metaclass__属性：
+ class->present_class->packageで__metaclass__メソッドを探し、適用(ないの場合、type)
+ 
+ １、set the hook@class create
+ ２、change the class
+ ３、return the class after changed
+ 
+ ★Anacondaの複数Python環境設定（Windows 3.x配下に2.7）
+ １、PC環境設定、PathにAnacondaのフォルダー設定、ネット制限の環境HTTP_PROXYなど変数の設定
+ ２、conda create -n python2007 python=2.7 anaconda
+ ３、2.7に切替、activate python2007
+ ４、戻る、deactivate
+ ５、Windowsのコマンドプロンプトに「unknown encoding: cp65001」の場合
+ 　　> chcp 65001
+ 　　> set PYTHONIOENCODING=utf-8
+ ６、Opencvインストール
+ Windows用のopencvライブラリの場所 http://www.lfd.uci.edu/~gohlke/pythonlibs/
+ python-3.1.0-cp35-cp35m-win_amd64.whlを選択(Windows64bit python3.5)
+
+ C:\Users\user-name\Downloads>pip install opencv_python-3.1.0-cp35-cp35m-win_amd64.whl
+ Processing c:\users\user-name\downloads\opencv_python-3.1.0-cp35-cp35m-win_amd64.whl
+ Installing collected packages: opencv-python
+ Successfully installed opencv-python-3.1.0
+ 
+ 
+ 

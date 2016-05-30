@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# V1.1.0: add "export COLUMNS=300"and "export LINES=30"
+#         change top command line(add "c", delete "i")
+# V1.2.0: for WiMAX-OMC(change COLUMNS,LINES)
+
+my_name="`basename $0`"
+my_ver="1.2.0"
+my_usage="
+$my_name $my_ver
+usage: $my_name sec filebase
+"
+
+export COLUMNS=150
+export LINES=150
+
+case "$#" in
+2)
+        sec=$1
+        filebase=$2
+        ;;
+*)
+        echo "$my_usage" >&2
+        exit 1
+        ;;
+esac
+file=${filebase}-`hostname`.toplog
+echo "---------------------------------------------------------------------"
+echo "file=$file"
+date
+(
+set -xv
+top d1 c n$sec b >$file
+)
+date
+echo "---------------------------------------------------------------------"
