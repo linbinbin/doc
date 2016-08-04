@@ -1,35 +1,35 @@
-ãƒ»æ–‡å­—åˆ—â‡”æ•°å€¤
-ã€€åŸºæœ¬ã®è€ƒãˆã‹ãŸã€æ–‡å­—åˆ—ã‚’ã¾ãšæ•°å€¤ã‹ã—ã¦ã€ã‚ã¨ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸Šã®è¡¨ç¾ãŒè‡ªç”±
-ã€€Cè¨€èªã€€itoaã€ltoaã€snprintfãªã©ã€æ•°å€¤â†’æ–‡å­—åˆ—
-ã€€       strtol,ãªã©æ–‡å­—åˆ—â†’æ•°å€¤
-ã€€python binasciiãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã€æ–‡å­—åˆ—â‡”æ•°å€¤
-ã€€       atoiå»ƒæ£„ã€int()ãªã©çµ„è¾¼ã¿é–¢æ•°ã€æ–‡å­—åˆ—â†’æ•°å€¤
-ã€€C#     Encoding.ASCII.GetString GetBytesåˆ©ç”¨
-ã€€
- â˜…C# dllãƒ•ã‚¡ã‚¤ãƒ«ã®PathæŒ‡å®šã«ã¤ã„ã¦ã€csprojãƒ•ã‚¡ã‚¤ãƒ«ã®<HintPath>ã§è¨­å®šã€‚
+E•¶š—ñÌ”’l
+@Šî–{‚Ìl‚¦‚©‚½A•¶š—ñ‚ğ‚Ü‚¸”’l‚©‚µ‚ÄA‚ ‚ÆƒvƒƒOƒ‰ƒ€ã‚Ì•\Œ»‚ª©—R
+@CŒ¾Œê@itoaAltoaAsnprintf‚È‚ÇA”’l¨•¶š—ñ
+@       strtol,‚È‚Ç•¶š—ñ¨”’l
+@python binasciiƒ‚ƒWƒ…[ƒ‹A•¶š—ñÌ”’l
+@       atoi”pŠüAint()‚È‚Ç‘g‚İŠÖ”A•¶š—ñ¨”’l
+@C#     Encoding.ASCII.GetString GetBytes—˜—p
+@
+ šC# dllƒtƒ@ƒCƒ‹‚ÌPathw’è‚É‚Â‚¢‚ÄAcsprojƒtƒ@ƒCƒ‹‚Ì<HintPath>‚Åİ’èB
    
-ã€€
-ãƒ»Linuxã‚«ãƒ¼ãƒãƒ«
-ã€€inlineé–¢æ•°å…¨éƒ¨static
-ã€€likelyï¼†unlikelyã€€
-ã€€ã‚«ãƒ¼ãƒãƒ«ã®stackã¯ã‚µã‚¤ã‚ºå›ºå®šã‹ã¤å°ã•ã„
-ã€€
-ã€€
-ã€€int num16 = Convert.ToInt32("FFFF", 16);
-ã€€int num = 65535;
+@
+ELinuxƒJ[ƒlƒ‹
+@inlineŠÖ”‘S•”static
+@likely•unlikely@
+@ƒJ[ƒlƒ‹‚Ìstack‚ÍƒTƒCƒYŒÅ’è‚©‚Â¬‚³‚¢
+@
+@
+@int num16 = Convert.ToInt32("FFFF", 16);
+@int num = 65535;
   string str = num.ToString("X");
   
 
-ã€€GDBä»»æ„ã®é–¢æ•°ã‚’Callã™ã‚‹æ–¹æ³•
-ã€€
-ã€€(gdb) set $box = (Box*)malloc(sizeof(Box))
-ã€€(gdb) set $box->length = 3
-ã€€(gdb) set $box->width = 4
-ã€€(gdb) set $box->height = 5
-ã€€(gdb) call get_capacity(*$box)
-ã€€ã€€ã€€box capacity: 60
-ã€€ã€€ã€€$1 = 60
-ã‚½ãƒ¼ã‚¹ï¼š
+@GDB”CˆÓ‚ÌŠÖ”‚ğCall‚·‚é•û–@
+@
+@(gdb) set $box = (Box*)malloc(sizeof(Box))
+@(gdb) set $box->length = 3
+@(gdb) set $box->width = 4
+@(gdb) set $box->height = 5
+@(gdb) call get_capacity(*$box)
+@@@box capacity: 60
+@@@$1 = 60
+ƒ\[ƒXF
 struct Box {
   int length;
   int width;
@@ -50,72 +50,74 @@ int main()
   return 0;
 }
 
-ã€€Split debugging info -- symbols
-ã€€stripã€eu-strip
-ã€€
+@Split debugging info -- symbols
+@stripAeu-strip
+@
 
  
- â˜…gitåˆæœŸåŒ–
+ šgit‰Šú‰»
  $ git init .
- â˜…gitãƒ•ã‚¡ã‚¤ãƒ«è¿½åŠ 
+ šgitƒtƒ@ƒCƒ‹’Ç‰Á
  $ git add *
  $ git status
- â˜…ä¸è¦ã®ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤
+ š•s—v‚Ìƒtƒ@ƒCƒ‹íœ
  $ git rm --cached superlists/*.pyc
- â˜…çœç•¥ãƒªã‚¹ãƒˆè¿½åŠ 
+ šÈ—ªƒŠƒXƒg’Ç‰Á
  $ echo "*.pyc" > .gitignore
- â˜…ã‚³ãƒŸãƒƒãƒˆ
+ šƒRƒ~ƒbƒg
  $ git add .gitignore
  $ git commit
  
- â˜…hgã‚³ãƒãƒ³ãƒ‰
- ãƒ­ã‚°è©³ç´°ç¢ºèªï¼šhg log -v -rxxxx
+ šhgƒRƒ}ƒ“ƒh
+ ƒƒOÚ×Šm”FFhg log -v -rxxxx
  
- â˜…ctage
- ctags -R `find -name *.[ch]`
+ šetage
+ etags -R `find -name *.[ch]`
+ ƒSƒ~ƒtƒ@ƒCƒ‹íœ
+ ls *.~ | xargs  rm
  
- â˜…find
+ šfin
  find . -type f -name xxx -exec grep -nH yyyy {} \;
  
  Shell
-ã€€Alt+.ã€€ã€€ã€€ã€€â‡’ã€€å‰å›ã‚³ãƒãƒ³ãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å†åº¦å…¥åŠ›
-ã€€ï¼¾oldï¼¾newã€€ â‡’ã€€å‰å›ã‚³ãƒãƒ³ãƒ‰ã®oldéƒ¨åˆ†ã‚’newã«å…¥ã‚Œæ›¿ãˆã¦å†åº¦å®Ÿè¡Œ
-ã€€date -d@1234567890xxx â‡’ã€€ç§’ã‹ã‚‰å¯¾å¿œã®æ—¥ä»˜ã«å¤‰æ›´
-ã€€ã€€ã€€[root@localhost sim_env]# date -d@0
-ã€€ã€€ã€€1970å¹´  1æœˆ  1æ—¥ æœ¨æ›œæ—¥ 09:00:00 JST
-ã€€
-ã€€du -s * | sort -n | tail
-ã€€ssh user@server bash < /path/to/local/script.sh
+@Alt+.@@@@Ë@‘O‰ñƒRƒ}ƒ“ƒh‚Ìƒpƒ‰ƒ[ƒ^Ä“x“ü—Í
+@OoldOnew@ Ë@‘O‰ñƒRƒ}ƒ“ƒh‚Ìold•”•ª‚ğnew‚É“ü‚ê‘Ö‚¦‚ÄÄ“xÀs
+@date -d@1234567890xxx Ë@•b‚©‚ç‘Î‰‚Ì“ú•t‚É•ÏX
+@@@[root@localhost sim_env]# date -d@0
+@@@1970”N  1Œ  1“ú –Ø—j“ú 09:00:00 JST
+@
+@du -s * | sort -n | tail
+@ssh user@server bash < /path/to/local/script.sh
 
- â˜…history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+ šhistory | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
 
-ã€€Shellå¤‰æ•°ã¯ã‚³ãƒãƒ³ãƒ‰ã¨ã—ã¦å®Ÿè¡Œã™ã‚‹æ–¹æ³•
-ã€€ï¼‘ã€`${var}` 
-ã€€ï¼’ã€$(${var}) 
-ã€€ï¼“ã€${var}ã€æ¨å¥¨ã—ãªã„ã€‘
-ã€€ä¾‹ï¼š
-ã€€ã€€ã€€VAR2='cd /home && echo "hello" && echo "good"'
-ã€€ã€€ã€€echo ${VAR2}|awk '{run=$0;system(run)}'
+@Shell•Ï”‚ÍƒRƒ}ƒ“ƒh‚Æ‚µ‚ÄÀs‚·‚é•û–@
+@‚PA`${var}` 
+@‚QA$(${var}) 
+@‚RA${var}y„§‚µ‚È‚¢z
+@—áF
+@@@VAR2='cd /home && echo "hello" && echo "good"'
+@@@echo ${VAR2}|awk '{run=$0;system(run)}'
 
- â˜…${#*}å’Œ${#@}è¡¨ç¤ºä½ç½®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ•°
+ š${#*}˜a${#@}•\¦ˆÊ’uƒpƒ‰ƒ[ƒ^‚Ì”
    target=cmnif_1
    SUF={target#*cmnif}
    SUF: _1
- â˜…${#array[*]}ã€${#array[@]}é…åˆ—é•·
+ š${#array[*]}A${#array[@]}”z—ñ’·
 
- â˜…${var#Pattern}, ${var##Pattern}
-   å…ˆé ­ã‹ã‚‰æœ€çŸ­Patternã€æœ€é•·Pattern
+ š${var#Pattern}, ${var##Pattern}
+   æ“ª‚©‚çÅ’ZPatternAÅ’·Pattern
    ${var%Pattern}, ${var%%Pattern}
-   å¾Œå°¾ã‹ã‚‰æœ€çŸ­Patternã€æœ€é•·Pattern
+   Œã”ö‚©‚çÅ’ZPatternAÅ’·Pattern
      
   grep -r '^struct task_struct ' include
-  â˜…forward declaration
+  šforward declaration
    
     diff -urP Original_Directory/xxx/xxx/xxx/xxx.c Modified_Directory/xxx/xxx/xxx/xxx.c
     --- Original_Directory/xxx/xxx/xxx/xxx.c [date]
     +++ Modified_Directory/xxx/xxx/xxx/xxx.c [date]
     
-ã€€ã€€# set.apply.awk
+@@# set.apply.awk
     BEGIN {
         n = 1 
     }
@@ -131,8 +133,8 @@ int main()
         }   
     }
 
- â˜…Cè¨€èª
- csvãƒ•ã‚¡ã‚¤ãƒ«ã‚’#include
+ šCŒ¾Œê
+ csvƒtƒ@ƒCƒ‹‚ğ#include
  #include <stdio.h>
  int main(void) {
    #blackmagicinclude("file.txt", content)
@@ -155,10 +157,10 @@ int main()
    #include "data.h"
  };
 
- â˜…trapã«ã‚ˆã‚Šã€shellã®Debug
- EXIT    å…¨ä½“ã‚¹ã‚¯ãƒªãƒ—ãƒˆorã‚ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‹ã‚‰çµ‚äº†æ™‚ç™ºç”Ÿ
- ERR     ã‚ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‹ã‚‰ã‚¨ãƒ©ãƒ¼æ™‚ç™ºç”Ÿ
- DEBUG   å„ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œå‰ç™ºç”Ÿ
+ štrap‚É‚æ‚èAshell‚ÌDebug
+ EXIT    ‘S‘ÌƒXƒNƒŠƒvƒgor‚ ‚éƒRƒ}ƒ“ƒh‚©‚çI—¹”­¶
+ ERR     ‚ ‚éƒRƒ}ƒ“ƒh‚©‚çƒGƒ‰[”­¶
+ DEBUG   ŠeƒRƒ}ƒ“ƒhÀs‘O”­¶
  $ cat -n exp1.sh
  1  ERRTRAP()
  2  {
@@ -170,10 +172,10 @@ int main()
  8  }
  9  trap \'ERRTRAP $LINENO\' ERR
  
- å¤‰æ•°ç›£è¦–
+ •Ï”ŠÄ‹
  $ cat -n exp2.sh
  1  #!/bin/bash
- 2  trap \'echo â€œbefore execute line:$LINENO, a=$a,b=$b,c=$câ€\' DEBUG
+ 2  trap \'echo gbefore execute line:$LINENO, a=$a,b=$b,c=$ch\' DEBUG
  3  a=1
  4  if [ "$a" -eq 1 ]
  5  then
@@ -184,12 +186,12 @@ int main()
  10  c=3
  11  echo "end"
  
- â˜…Tãƒ‘ã‚¤ãƒ—ã®ä½¿ç”¨
+ šTƒpƒCƒv‚Ìg—p
  ipaddr=`/sbin/ifconfig | grep \'inet addr:\' | grep -v \'127.0.0.1\'
  | tee temp.txt | cut -d : -f3 | awk \'{print $1}\'`
  echo $ipaddr
  
- â˜…Debug Hookã®ä½¿ç”¨
+ šDebug Hook‚Ìg—p
  $ cat -n exp3.sh
      1  DEBUG()
      2  {
@@ -209,47 +211,47 @@ int main()
     16  c=3
     17  DEBUG echo "c=$c"
  
- â˜…ã‚·ã‚§ãƒ¼ãƒ«å®Ÿè¡Œã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚ˆã‚Šã®åˆ¶å¾¡
+ šƒVƒF[ƒ‹ÀsƒIƒvƒVƒ‡ƒ“‚æ‚è‚Ì§Œä
  $ sh -x exp2.sh
- ä¸€è¡Œã¥ã¤å®Ÿè¡Œ
+ ˆês‚Ã‚ÂÀs
  
  $ cat -n exp4.sh
- æ–‡æ³•ãƒã‚§ãƒƒã‚¯
+ •¶–@ƒ`ƒFƒbƒN
  
- â˜…Makefileå†…ã®Shellä½¿ç”¨
+ šMakefile“à‚ÌShellg—p
  http://www.jsk.t.u-tokyo.ac.jp/~k-okada/makefile/
- ï¼‘ã€Targetå¤–ã®å¼•ç”¨
+ ‚PATargetŠO‚Ìˆø—p
      #for auto-generated test scripts
      AUTO_GENERATED := $(SRC_BASE)/../targets/zeus/scripts/Common/auto_generated
      _:=$(shell mkdir -p $(AUTO_GENERATED)/test_memmap)
- ï¼’ã€Targetå†…ã®å¼•ç”¨
+ ‚QATarget“à‚Ìˆø—p
      @if [ ! -d $(AUTO_GENERATED) ]; then \
          echo "no mkdir" ; mkdir -p  $(AUTO_GENERATED);\
      fi
          cp -f $(SRC_BASE)/$(TARGET)/csv/output/test/dsu-device.simics $(AUTO_GENERATED)/.
 
- â˜…å‹ã®å¤‰æ›-int,str,char,float,ord,hex,octç­‰
+ šŒ^‚Ì•ÏŠ·-int,str,char,float,ord,hex,oct“™
  int(x [,base ])         string x-> int
  long(x [,base ])        string x-> long
  float(x )               string x-> float
  complex(real [,imag ])  create complex
  str(x )                 int x -> string
- repr(x )                xã‹ã‚‰æ–‡å­—åˆ—ã®å¤§ãã•ã‚’åˆ¶é™ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¡¨ç¾ã‚’ä½œã‚Šå‡ºã™
- eval(str x)             string xã‹ã‚‰å†…å®¹ã‚’æ±‚ã‚ã‚‹    
- tuple(s )               é…åˆ—s -> tuple    
- list(s )                é…åˆ—s -> list    
+ repr(x )                x‚©‚ç•¶š—ñ‚Ì‘å‚«‚³‚ğ§ŒÀ‚µ‚½ƒIƒuƒWƒFƒNƒg•\Œ»‚ğì‚èo‚·
+ eval(str x)             string x‚©‚ç“à—e‚ğ‹‚ß‚é    
+ tuple(s )               ”z—ñs -> tuple    
+ list(s )                ”z—ñs -> list    
  chr(x )                 int x -> char    
  unichr(x )              int x -> Unicode char   
  ord(x )                 char x -> int    
  hex(x )                 int x -> str(16)    
  oct(x )                 int x -> str(8)
  
- â˜…TCP/IP
- TCP@4 -- Transport(Segment)ï¼ŒIP@3 -- Network(Packet)ï¼ŒARP@2 -- Data Link(Frame)
+ šTCP/IP
+ TCP@4 -- Transport(Segment)CIP@3 -- Network(Packet)CARP@2 -- Data Link(Frame)
  
- â˜…self._up subã‚¯ãƒ©ã‚¹ã®ä¸Šä½ã‚¯ãƒ©ã‚¹å–å¾—
+ šself._up subƒNƒ‰ƒX‚ÌãˆÊƒNƒ‰ƒXæ“¾
  
- â˜…forkã«ã¤ã„ã¦ã€
+ šfork‚É‚Â‚¢‚ÄA
  http://coolshell.cn/articles/7965.html
  #include <stdio.h>
  #include <sys/types.h>
@@ -263,13 +265,13 @@ int main()
    }
    return 0;
  }
- 8å€‹"-"ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã€‚
+ 8ŒÂ"-"‚ªo—Í‚³‚ê‚éB
  printf("-\n"); or fflush(stdout);
- 6å€‹"-"ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã€‚
+ 6ŒÂ"-"‚ªo—Í‚³‚ê‚éB
  
- â˜…decorator
+ šdecorator
  http://coolshell.cn/articles/11265.html
- æœ¬è³ªï¼š
+ –{¿F
  @decorator
  func():
     pass
@@ -287,10 +289,10 @@ int main()
  -> func = decorator(arg1,arg2)(func)
  
  *args and **kwargs
- ã€Œ*ã€ ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä¿æœ‰ã™ã‚‹é…åˆ—
- ã€Œ**ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä¿æœ‰ã™ã‚‹è¾æ›¸
+ u*v ƒpƒ‰ƒ[ƒ^‚ğ•Û—L‚·‚é”z—ñ
+ u**vƒpƒ‰ƒ[ƒ^‚ğ•Û—L‚·‚é«‘
  
- â˜…ãƒ•ã‚§ãƒ©ãƒœãƒªæ•°åˆ—
+ šƒtƒFƒ‰ƒ{ƒŠ”—ñ
  def fact(x):
     return x > 1 and x * fact(x - 1) or 1
  print fact(6)
@@ -303,8 +305,8 @@ int main()
  fact = lambda x: f.foldl(op.mul, 1, xrange(2, x + 1))
  print fact(6)
  
- â˜…reduce(function, iterable[, initializer])
- iterable ã®è¦ç´ ã«å¯¾ã—ã¦ã€iterableã‚’å˜ä¸€ã®å€¤ã«çŸ­ç¸®ã™ã‚‹ã‚ˆã†ãªå½¢ã§ 2 ã¤ã®å¼•æ•°ã‚’ã‚‚ã¤ function ã‚’å·¦ã‹ã‚‰å³ã«ç´¯ç©çš„ã«é©ç”¨ã—ã¾ã™ã€‚ä¾‹ãˆã°ã€ reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) ã¯ ((((1+2)+3)+4)+5) ã‚’è¨ˆç®—ã—ã¾ã™ã€‚å·¦å¼•æ•° x ã¯ç´¯è¨ˆã®å€¤ã«ãªã‚Šã€å³å¼•æ•° y ã¯ iterable ã‹ã‚‰å–ã‚Šå‡ºã—ãŸæ›´æ–°å€¤ã«ãªã‚Šã¾ã™ã€‚ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã® initializer ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€è¨ˆç®—ã®éš›ã« iterable ã®å…ˆé ­ã«ç½®ã‹ã‚Œã¾ã™ã€‚ã¾ãŸã€ iterable ãŒç©ºã®å ´åˆã«ã¯æ¨™æº–ã®å€¤ã«ãªã‚Šã¾ã™ã€‚ initializer ãŒä¸ãˆã‚‰ã‚Œã¦ãŠã‚‰ãšã€ iterable ãŒå˜ä¸€ã®è¦ç´ ã—ã‹æŒã£ã¦ã„ãªã„å ´åˆã€æœ€åˆã®è¦ç´ ãŒè¿”ã•ã‚Œã¾ã™ã€‚
+ šreduce(function, iterable[, initializer])
+ iterable ‚Ì—v‘f‚É‘Î‚µ‚ÄAiterable‚ğ’Pˆê‚Ì’l‚É’Zk‚·‚é‚æ‚¤‚ÈŒ`‚Å 2 ‚Â‚Ìˆø”‚ğ‚à‚Â function ‚ğ¶‚©‚ç‰E‚É—İÏ“I‚É“K—p‚µ‚Ü‚·B—á‚¦‚ÎA reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) ‚Í ((((1+2)+3)+4)+5) ‚ğŒvZ‚µ‚Ü‚·B¶ˆø” x ‚Í—İŒv‚Ì’l‚É‚È‚èA‰Eˆø” y ‚Í iterable ‚©‚çæ‚èo‚µ‚½XV’l‚É‚È‚è‚Ü‚·BƒIƒvƒVƒ‡ƒ“‚Ì initializer ‚ª‘¶İ‚·‚éê‡AŒvZ‚ÌÛ‚É iterable ‚Ìæ“ª‚É’u‚©‚ê‚Ü‚·B‚Ü‚½A iterable ‚ª‹ó‚Ìê‡‚É‚Í•W€‚Ì’l‚É‚È‚è‚Ü‚·B initializer ‚ª—^‚¦‚ç‚ê‚Ä‚¨‚ç‚¸A iterable ‚ª’Pˆê‚Ì—v‘f‚µ‚©‚Á‚Ä‚¢‚È‚¢ê‡AÅ‰‚Ì—v‘f‚ª•Ô‚³‚ê‚Ü‚·B
  http://momijiame.tumblr.com/post/62720384334/python-reduce
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
@@ -321,35 +323,35 @@ int main()
     
  ?location=tokyo&name=amedama&sex=male
  
- â˜…ãƒªã‚¹ãƒˆå†…åŒ…è¡¨è¨˜
+ šƒŠƒXƒg“à•ï•\‹L
  http://python.civic-apps.com/list-comprehensions/
- ç¹°ã‚Šè¿”ã—å‡¦ç†ã§ãƒªã‚¹ãƒˆç”Ÿæˆã™ã‚‹æ™‚ã®æ§‹æ–‡
+ ŒJ‚è•Ô‚µˆ—‚ÅƒŠƒXƒg¶¬‚·‚é‚Ì\•¶
  >> aray = [1, 2, 3]
- >>> [x*2 for x in ary]    #aryã®å„è¦ç´ ã‚’*2ã—ã¦ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+ >>> [x*2 for x in ary]    #ary‚ÌŠe—v‘f‚ğ*2‚µ‚ÄƒŠƒXƒg‚ğ¶¬‚·‚éB
  [2, 4, 6]
  >> ary
- [1, 2, 3]                 #aryã«å¤‰æ›´ã¯ãªã„
+ [1, 2, 3]                 #ary‚É•ÏX‚Í‚È‚¢
  
- mapã¨lamdaå¼ã§ã®åŒç­‰ã®è¨˜è¿°
- mapã¨lambdaå¼ã§ã‚‚åŒæ§˜ã®å‡¦ç†ãŒç°¡æ½”ã«è¨˜è¿°ã§ãã‚‹ãŒã€ãƒªã‚¹ãƒˆå†…åŒ…è¡¨è¨˜ã‚ˆã‚Šã‚‚ãŠãŠã‚€ã­ä½é€Ÿã€‚ï¼ˆforã‚ˆã‚Šã¯é€Ÿã„)
+ map‚Ælamda®‚Å‚Ì“¯“™‚Ì‹Lq
+ map‚Ælambda®‚Å‚à“¯—l‚Ìˆ—‚ªŠÈŒ‰‚É‹Lq‚Å‚«‚é‚ªAƒŠƒXƒg“à•ï•\‹L‚æ‚è‚à‚¨‚¨‚Ş‚Ë’á‘¬Bifor‚æ‚è‚Í‘¬‚¢)
  >>> ary = [1,2,3]
  >>> map(lambda x: x*2, ary)
  [2, 4, 6]
  
  >>> ary = [1,2,3]
- >>> [x for x in ary if x % 2 == 1]    # å¥‡æ•°ã§ã‚ã‚‹è¦ç´ (x % 2 == 1)ã‚’æŠ½å‡ºã—ãŸãƒªã‚¹ãƒˆã‚’ä½œã‚‹ã€‚
+ >>> [x for x in ary if x % 2 == 1]    # Šï”‚Å‚ ‚é—v‘f(x % 2 == 1)‚ğ’Šo‚µ‚½ƒŠƒXƒg‚ğì‚éB
  [1, 3]
 
- #filterã‚’ä½¿ã£ãŸåŒç­‰ã®ã‚³ãƒ¼ãƒ‰
+ #filter‚ğg‚Á‚½“¯“™‚ÌƒR[ƒh
  >>> ary = [1,2,3]
- >>> filter(lambda x:x%2==1, ary) #lambdaå¼ãŒTrueã‚’è¿”ã™è¦ç´ ã‚’æŠ½å‡ºã—ãŸãƒªã‚¹ãƒˆã‚’ä½œã‚‹
+ >>> filter(lambda x:x%2==1, ary) #lambda®‚ªTrue‚ğ•Ô‚·—v‘f‚ğ’Šo‚µ‚½ƒŠƒXƒg‚ğì‚é
  [1, 3]
 
- #ãƒªã‚¹ãƒˆå†…åŒ…è¡¨è¨˜ã®æ–¹ãŒã€æŠ½å‡ºã—ãŸä¸Šã§æ¼”ç®—ã§ãã‚‹ã®ã§å¿œç”¨ç¯„å›²ãŒåºƒã„
+ #ƒŠƒXƒg“à•ï•\‹L‚Ì•û‚ªA’Šo‚µ‚½ã‚Å‰‰Z‚Å‚«‚é‚Ì‚Å‰—p”ÍˆÍ‚ªL‚¢
  >>> ary = [1,2,3]
- >>> [x*2 for x in ary if x % 2 == 1]    # å¥‡æ•°ã‚’æŠ½å‡ºã—ã€*2ã—ãŸãƒªã‚¹ãƒˆã‚’ä½œã‚‹ã€‚
+ >>> [x*2 for x in ary if x % 2 == 1]    # Šï”‚ğ’Šo‚µA*2‚µ‚½ƒŠƒXƒg‚ğì‚éB
  [2, 6]
- #filterã¨mapã‚’ä½¿ã£ãŸåŒç­‰ã®ã‚³ãƒ¼ãƒ‰ï¼ˆåˆ†ã‹ã‚Šã«ãã„ï¼‰
+ #filter‚Æmap‚ğg‚Á‚½“¯“™‚ÌƒR[ƒhi•ª‚©‚è‚É‚­‚¢j
  >>> map(lambda x:x*2, filter(lambda x: x%2==1, ary))
  [2, 6]
  
@@ -358,21 +360,21 @@ int main()
  >>> [x*y for x in range(3) for y in range(3,6)]
  [0, 0, 0, 3, 4, 5, 6, 8, 10]
  
- â˜…Function Programming
+ šFunction Programming
  num =[2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8]
  positive_num = filter(lambda x: x>0, num) (or range(9))
  average = reduce(lambda x,y: x+y, positive_num) / len( positive_num )
 
- â˜…Pythonã§ã®3é …æ¼”ç®—å­ã®è¨˜è¿°ã¯ã©ã†ã™ã‚‹ã®ã‹ï¼Ÿ
+ šPython‚Å‚Ì3€‰‰Zq‚Ì‹Lq‚Í‚Ç‚¤‚·‚é‚Ì‚©H
  x = 10 if a == 1 else 20
 
- â˜…__xxx__ å½¢å¼ã®ç‰¹æ®Šãƒ¡ã‚½ãƒƒãƒ‰ã€ç‰¹æ®Šãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+ š__xxx__ Œ`®‚Ì“Áêƒƒ\ƒbƒhA“ÁêƒtƒB[ƒ‹ƒh
  http://python.civic-apps.com/__xxx__/
  __init__
- ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹éš›ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+ ƒRƒ“ƒXƒgƒ‰ƒNƒ^BƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éÛ‚ÉŒÄ‚Ño‚³‚ê‚éB
  
  __getitem__, __setitem__
- æ·»å­—ä»˜ãã‚¢ã‚¯ã‚»ã‚¹ã«å¯¾ã™ã‚‹[]æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ã€‚æ·»å­—ã§ã®ã‚¢ã‚¯ã‚»ã‚¹ãŒå¯èƒ½ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãªã‚‹ã€‚
+ “Yš•t‚«ƒAƒNƒZƒX‚É‘Î‚·‚é[]‰‰ZqƒI[ƒo[ƒ[ƒhB“Yš‚Å‚ÌƒAƒNƒZƒX‚ª‰Â”\‚ÈƒIƒuƒWƒFƒNƒg‚É‚È‚éB
  >>> class MyList(object):
  ...   def __getitem__(self, key):
  ...     return key+10
@@ -387,25 +389,25 @@ int main()
  set 0=10
  
  __iter__
-ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãŒè¦æ±‚ã•ã‚ŒãŸéš›ã«å‘¼ã³ã ã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€‚ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
+ƒCƒeƒŒ[ƒ^‚ª—v‹‚³‚ê‚½Û‚ÉŒÄ‚Ñ‚¾‚³‚ê‚éƒƒ\ƒbƒhBƒCƒeƒŒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
  __enter__, __exit__
- withæ–‡ã«å¯¾ã™ã‚‹å…¥ã‚Šå£ã€å‡ºå£ã®å‡¦ç†ã€‚
+ with•¶‚É‘Î‚·‚é“ü‚èŒûAoŒû‚Ìˆ—B
  __cmp__
- æ¯”è¼ƒæ¼”ç®—å­ç”¨ã€‚__cmp__(self, other)ã®é–¢æ•°ã¯ã€self < otherã®æ™‚ã«è² ã®å€¤ã€‚self == otherã®æ™‚ã«0ã€‚self > otherã®æ™‚ã«æ­£ã®å€¤ã‚’è¿”ã™ã‚ˆã†ã«å®Ÿè£…ã™ã‚‹ã€‚ã“ã‚Œã§self < otherã®ã‚ˆã†ã«æ¯”è¼ƒæ¼”ç®—å­ãŒä½¿ç”¨ã§ãã‚‹ã‚ˆã†ã«ãªã‚‹ã€‚__lt__, __le__ã®ã‚ˆã†ãªæ‹¡å¼µæ¯”è¼ƒãƒ¡ã‚½ãƒƒãƒ‰ã‚‚ã‚ã‚Šã€ãã‚Œã‚’å®Ÿè£…ã—ãŸå ´åˆã¯ã€__cmp__ã‚ˆã‚Šã‚‚å„ªå…ˆã•ã‚Œã‚‹ã€‚æ‹¡å¼µæ¯”è¼ƒãƒ¡ã‚½ãƒƒãƒ‰ã€‚
-â€»Python3ç³»ã§ã¯ã€__cmp__ã¯å»ƒæ­¢ã•ã‚Œã¦ã€æ‹¡å¼µæ¯”è¼ƒãƒ¡ã‚½ãƒƒãƒ‰ã§å®Ÿè£…ã™ã‚‹ã‚ˆã†ã«ãªã£ãŸã€‚__lt__, __eq__ã‚’å®Ÿè£…ã™ã‚‹ã“ã¨ã§åŒç­‰ã¨ãªã‚‹ã€‚ __slots__
- ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚‚ã¤å±æ€§ã®ãƒªã‚¹ãƒˆã€‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å±æ€§ã‚’è¿½åŠ ã§ããªã„ã‚ˆã†ã«åˆ¶é™ã§ãã‚‹ã€‚è©³ç´°ã¯__slot__ã‚’å‚ç…§ã€‚
+ ”äŠr‰‰Zq—pB__cmp__(self, other)‚ÌŠÖ”‚ÍAself < other‚Ì‚É•‰‚Ì’lBself == other‚Ì‚É0Bself > other‚Ì‚É³‚Ì’l‚ğ•Ô‚·‚æ‚¤‚ÉÀ‘•‚·‚éB‚±‚ê‚Åself < other‚Ì‚æ‚¤‚É”äŠr‰‰Zq‚ªg—p‚Å‚«‚é‚æ‚¤‚É‚È‚éB__lt__, __le__‚Ì‚æ‚¤‚ÈŠg’£”äŠrƒƒ\ƒbƒh‚à‚ ‚èA‚»‚ê‚ğÀ‘•‚µ‚½ê‡‚ÍA__cmp__‚æ‚è‚à—Dæ‚³‚ê‚éBŠg’£”äŠrƒƒ\ƒbƒhB
+¦Python3Œn‚Å‚ÍA__cmp__‚Í”p~‚³‚ê‚ÄAŠg’£”äŠrƒƒ\ƒbƒh‚ÅÀ‘•‚·‚é‚æ‚¤‚É‚È‚Á‚½B__lt__, __eq__‚ğÀ‘•‚·‚é‚±‚Æ‚Å“¯“™‚Æ‚È‚éB __slots__
+ ƒIƒuƒWƒFƒNƒg‚ª‚à‚Â‘®«‚ÌƒŠƒXƒgBƒIƒuƒWƒFƒNƒg‚É‘®«‚ğ’Ç‰Á‚Å‚«‚È‚¢‚æ‚¤‚É§ŒÀ‚Å‚«‚éBÚ×‚Í__slot__‚ğQÆB
 __all__
-import *ã—ãŸæ™‚ã«ã€importã™ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆã€‚ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®__init__.pyã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ä½¿ç”¨ã™ã‚‹ã€‚
-__all__ = ["echo", "surround", "reverse"]ã€€
-ã“ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ã‚¤ãƒ³ãƒãƒ¼ãƒˆã—ãŸæ™‚ã«ã€3ã¤ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãŒã‚¤ãƒ³ãƒãƒ¼ãƒˆã•ã‚Œã‚‹ã€‚
+import *‚µ‚½‚ÉAimport‚·‚éƒ‚ƒWƒ…[ƒ‹‚ÌƒŠƒXƒgBƒpƒbƒP[ƒW‚Ì__init__.py‚Ìƒ‚ƒWƒ…[ƒ‹‚Åg—p‚·‚éB
+__all__ = ["echo", "surround", "reverse"]@
+‚±‚ÌƒpƒbƒP[ƒW‚ğƒCƒ“ƒ|[ƒg‚µ‚½‚ÉA3‚Â‚Ìƒ‚ƒWƒ…[ƒ‹‚ªƒCƒ“ƒ|[ƒg‚³‚ê‚éB
 
- â˜…ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ï¼ˆreflection)
- æƒ…å ±å·¥å­¦ã«ãŠã„ã¦ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ (reflection) ã¨ã¯ã€ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®å®Ÿè¡Œéç¨‹ã§ãƒ—ãƒ­ã‚°ãƒ©ãƒ è‡ªèº«ã®æ§‹é€ ã‚’èª­ã¿å–ã£ãŸã‚Šæ›¸ãæ›ãˆãŸã‚Šã™ã‚‹æŠ€è¡“ã®ã“ã¨ã§ã‚ã‚‹ã€‚
- # ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãªã—
+ šƒŠƒtƒŒƒNƒVƒ‡ƒ“ireflection)
+ î•ñHŠw‚É‚¨‚¢‚ÄƒŠƒtƒŒƒNƒVƒ‡ƒ“ (reflection) ‚Æ‚ÍAƒvƒƒOƒ‰ƒ€‚ÌÀs‰ß’ö‚ÅƒvƒƒOƒ‰ƒ€©g‚Ì\‘¢‚ğ“Ç‚İæ‚Á‚½‚è‘‚«Š·‚¦‚½‚è‚·‚é‹Zp‚Ì‚±‚Æ‚Å‚ ‚éB
+ # ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚È‚µ
  obj = Foo()
  obj.hello()
  
- # ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+ # ƒŠƒtƒŒƒNƒVƒ‡ƒ“
  class_name = "Foo"
  method = "hello"
  obj = globals()[class_name]()
@@ -414,50 +416,223 @@ __all__ = ["echo", "surround", "reverse"]ã€€
  # eval
  eval("Foo().hello()")
  
- â˜…JavaScriptã®å±æ€§åï¼ˆStringï¼‰ã‹ã‚‰ã‚¯ãƒ©ã‚¹ã®å±æ€§ãªã©å–å¾—
- // ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãªã—
+ šJavaScript‚Ì‘®«–¼iStringj‚©‚çƒNƒ‰ƒX‚Ì‘®«‚È‚Çæ“¾
+ // ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚È‚µ
  var foo = new Foo();
  foo.hello();
- // ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+ // ƒŠƒtƒŒƒNƒVƒ‡ƒ“
  var foo = this['Foo'];
  var methodName = 'hello';
  (new foo())[methodName]();
 
- â˜…MetaClassã«ã¤ã„ã¦ã€
+ šMetaClass‚É‚Â‚¢‚ÄA
  http://my.oschina.net/memorybox/blog/127615
- è«–ç†çš„ã«MetaClassã¯Classã‚’ä½œã‚‹ãŸã‚ã®Classã§ã‚ã‚Šã€Pythonã®"class" KeywordåŠã³typeã¯åŒã˜æ©Ÿèƒ½ã‚’ã‚‚ã¤ã€‚
+ ˜_—“I‚ÉMetaClass‚ÍClass‚ğì‚é‚½‚ß‚ÌClass‚Å‚ ‚èAPython‚Ì"class" Keyword‹y‚Ñtype‚Í“¯‚¶‹@”\‚ğ‚à‚ÂB
  MyClass=MetaClass()
  MyObject=MyClass()
  
  MyClass=type('MyClass', (), {})
  
- type(class_name, present_classï¼ˆor Noneï¼‰ï¼Œattr_dictï¼ˆname&valueï¼‰)
- __metaclass__å±æ€§ï¼š
- class->present_class->packageã§__metaclass__ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æ¢ã—ã€é©ç”¨(ãªã„ã®å ´åˆã€type)
+ type(class_name, present_classior NonejCattr_dictiname&valuej)
+ __metaclass__‘®«F
+ class->present_class->package‚Å__metaclass__ƒƒ\ƒbƒh‚ğ’T‚µA“K—p(‚È‚¢‚Ìê‡Atype)
  
- ï¼‘ã€set the hook@class create
- ï¼’ã€change the class
- ï¼“ã€return the class after changed
+ ‚PAset the hook@class create
+ ‚QAchange the class
+ ‚RAreturn the class after changed
  
- â˜…Anacondaã®è¤‡æ•°Pythonç’°å¢ƒè¨­å®šï¼ˆWindows 3.xé…ä¸‹ã«2.7ï¼‰
- ï¼‘ã€PCç’°å¢ƒè¨­å®šã€Pathã«Anacondaã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼è¨­å®šã€ãƒãƒƒãƒˆåˆ¶é™ã®ç’°å¢ƒHTTP_PROXYãªã©å¤‰æ•°ã®è¨­å®š
- ï¼’ã€conda create -n python2007 python=2.7 anaconda
- ï¼“ã€2.7ã«åˆ‡æ›¿ã€activate python2007
- ï¼”ã€æˆ»ã‚‹ã€deactivate
- ï¼•ã€Windowsã®ã‚³ãƒãƒ³ãƒ‰ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã«ã€Œunknown encoding: cp65001ã€ã®å ´åˆ
- ã€€ã€€> chcp 65001
- ã€€ã€€> set PYTHONIOENCODING=utf-8
- ï¼–ã€Opencvã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
- Windowsç”¨ã®opencvãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®å ´æ‰€ http://www.lfd.uci.edu/~gohlke/pythonlibs/
- python-3.1.0-cp35-cp35m-win_amd64.whlã‚’é¸æŠ(Windows64bit python3.5)
+ šAnaconda‚Ì•¡”PythonŠÂ‹«İ’èiWindows 3.x”z‰º‚É2.7j
+ ‚PAPCŠÂ‹«İ’èAPath‚ÉAnaconda‚ÌƒtƒHƒ‹ƒ_[İ’èAƒlƒbƒg§ŒÀ‚ÌŠÂ‹«HTTP_PROXY‚È‚Ç•Ï”‚Ìİ’è
+ ‚QAconda create -n python2007 python=2.7 anaconda
+ ‚RA2.7‚ÉØ‘ÖAactivate python2007
+ ‚SA–ß‚éAdeactivate
+ ‚TAWindows‚ÌƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚Éuunknown encoding: cp65001v‚Ìê‡
+ @@> chcp 65001
+ @@> set PYTHONIOENCODING=utf-8
+ ‚UAOpencvƒCƒ“ƒXƒg[ƒ‹
+ Windows—p‚Ìopencvƒ‰ƒCƒuƒ‰ƒŠ‚ÌêŠ http://www.lfd.uci.edu/~gohlke/pythonlibs/
+ python-3.1.0-cp35-cp35m-win_amd64.whl‚ğ‘I‘ğ(Windows64bit python3.5)
 
  C:\Users\user-name\Downloads>pip install opencv_python-3.1.0-cp35-cp35m-win_amd64.whl
  Processing c:\users\user-name\downloads\opencv_python-3.1.0-cp35-cp35m-win_amd64.whl
  Installing collected packages: opencv-python
  Successfully installed opencv-python-3.1.0
+
+šAccessing the index in Python for loops:(by enumerate)
+  for idx, tbl in enumerate(_data):
+
+
+gdb ƒƒ‚
+http://www.hi-ho.ne.jp/babaq/linux/gdb.html
++-----------------+----------------------------------------+
+| ƒRƒ}ƒ“ƒh           | à–¾                                   |
++-----------------+----------------------------------------+
+| s               | ƒXƒeƒbƒvÀs                              |
++-----------------+----------------------------------------+
+| n               | ƒXƒeƒbƒv(ŠÖ”ƒXƒLƒbƒv)                       |
++-----------------+----------------------------------------+
+| p name          | •Ï”•\¦                                |
++-----------------+----------------------------------------+
+| p *name         | ƒ|ƒCƒ“ƒ^‚ªw‚·“à—e                         |
++-----------------+----------------------------------------+
+| p (char[8])     | ’·‚³w’è                                |
+| name            |                                        |
++-----------------+----------------------------------------+
+| p &name         | ƒAƒhƒŒƒX                                  |
++-----------------+----------------------------------------+
+| i b             | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgˆê——                         |
++-----------------+----------------------------------------+
+| d n             | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgíœ                         |
++-----------------+----------------------------------------+
+| i r             | ƒŒƒWƒXƒ^•\¦                              |
++-----------------+----------------------------------------+
+| l [ŠÖ”–¼]       | ƒŠƒXƒg•\¦                               |
++-----------------+----------------------------------------+
+| where           | ƒAƒxƒ“ƒhêŠ•\¦                          |
++-----------------+----------------------------------------+
+| up              | ŠÖ”ŠÔˆÚ“®                              |
++-----------------+----------------------------------------+
+| down            | ŠÖ”ŠÔˆÚ“®                              |
++-----------------+----------------------------------------+
+| set name = 1    | •Ï”İ’è                                |
++-----------------+----------------------------------------+
+| b nnn           | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgİ’è                         |
++-----------------+----------------------------------------+
+| watch i==10     | •Ï”‚ª•ÏX‚³‚ê‚½‚Æ‚«’â~                    |
++-----------------+----------------------------------------+
+| run             | Às                                   |
++-----------------+----------------------------------------+
+| cont            | ‘±s                                   |
++-----------------+----------------------------------------+
+| display xx      | ’â~‚µ‚½‚Æ‚«•\¦                          |
++-----------------+----------------------------------------+
+| finish          | Œ»İ‚ÌŠÖ”‚ª•œ‹A‚·‚é‚Ü‚ÅÀs               |
++-----------------+----------------------------------------+
+| clear nn        | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgƒNƒŠƒA                        |
++-----------------+----------------------------------------+
+| disable nn      | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgˆêƒNƒŠƒA                    |
++-----------------+----------------------------------------+
+| enable nn       | ƒuƒŒ[ƒNƒ|ƒCƒ“ƒgÄŠJ                        |
++-----------------+----------------------------------------+
+| attach process  | ƒvƒƒZƒX‚ÉƒAƒ^ƒbƒ`                           |
++-----------------+----------------------------------------+
+| detach          | ƒfƒ^ƒbƒ`                                  |
++-----------------+----------------------------------------+
+| q               | I—¹                                   |
++-----------------+----------------------------------------+
+
+pƒRƒ}ƒ“ƒh‚Ìƒpƒ‰ƒ[ƒ^
++-----------------+----------------------------------------+
+| x               | ‚P‚Ui”                               |
++-----------------+----------------------------------------+
+| d               | ‚P‚Oi”iƒfƒtƒHƒ‹ƒgj                     |
++-----------------+----------------------------------------+
+| u               | •„†‚È‚µ‚P‚Oi”                         |
++-----------------+----------------------------------------+
+| o               | ‚Wi”                                 |
++-----------------+----------------------------------------+
+| t               | ‚Qi”                                 |
++-----------------+----------------------------------------+
+| a               | ƒAƒhƒŒƒX                                 |
++-----------------+----------------------------------------+
+| c               | •¶š                                   |
++-----------------+----------------------------------------+
+| f               | •‚“®¬”“_”                            |
++-----------------+----------------------------------------+
+| i               | –½—ß                                   |
++-----------------+----------------------------------------+
+
+p‚ÌƒŒƒWƒXƒ^
++-----------------+----------------------------------------+
+| eax             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| ebx             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| ecx             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| edx             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| esp             | ƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^                             |
++-----------------+----------------------------------------+
+| ebp             | ƒx[ƒXƒ|ƒCƒ“ƒ^                             |
++-----------------+----------------------------------------+
+| esi             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| edi             | ”Ä—pƒŒƒWƒXƒ^                              |
++-----------------+----------------------------------------+
+| eip             | ƒCƒ“ƒXƒgƒ‰ƒNƒVƒ‡ƒ“ƒ|ƒCƒ“ƒ^                      |
++-----------------+----------------------------------------+
+| ps (eflags)     | ƒvƒƒZƒbƒTEƒXƒe[ƒ^ƒXiƒtƒ‰ƒOƒŒƒWƒXƒ^j           |
++-----------------+----------------------------------------+
+| cs              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| ss              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| ds              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| es              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| fs              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| gs              | ƒZƒOƒƒ“ƒgƒŒƒWƒXƒ^                          |
++-----------------+----------------------------------------+
+| pc              | ƒCƒ“ƒXƒgƒ‰ƒNƒVƒ‡ƒ“ƒ|ƒCƒ“ƒ^‚Ìw‚·“à—e             |
++-----------------+----------------------------------------+
+
+
+import urllib.request,os;urllib.request.ProxyHandler({'https': 'https://Shinsei Okada:shu08lin@192.168.236.23:8080'})
+sublime text ‚Å@proxy ‚Ìİ’è
+sublime text 3 ‚Å@packeage ‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚æ‚¤‚Æ‚·‚é‚ÆA«‚ÌƒGƒ‰[‚ªo‚Ä‚Ü‚µ‚½B
+Package Control: Error downloading channel. HTTP error 407 downloading https://packagecontrol.io/channel_v3.json.
+
+proxy ‚Ìİ’è‚ª•K—v‚¾‚æ‚¤‚Å‚·B
+
+ŠÔˆá‚Á‚ÄAPreferences -> Settings - User ‚ğƒNƒŠƒbƒN‚µ‚ÄAİ’è‚µ‚Ü‚µ‚½‚ªA
+‚¸‚Á‚Æ“¯‚¶ƒGƒ‰[‚ªo‚Ä‚Ü‚µ‚½B
+
+‚¢‚ë‚¢‚ë”Y‚İ‚Ü‚µ‚½‚ªAİ’èêŠŠÔˆá‚Á‚½‚æ‚¤‚Å‚·B
+³‚µ‚¢‚Ì‚ÍF
+Perfernce -> package setting -> package control -> settings- user
+
+À‚Íì¬‚µ‚½ƒtƒ@ƒCƒ‹‚àˆá‚¤‚æ‚¤‚Å‚·B
+Preferences -> Settings - User@‚ğC³‚µ‚½ê‡A
+c:/Users/<%username%>/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings
+‚É@”½‰f‚³‚ê‚Ü‚·B
+Perfernce -> package setting -> package control -> settings- user@‚ğC³‚µ‚½ê‡A
+c:/Users/<%username%>/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings
+‚É@”½‰f‚³‚ê‚Ü‚·B
+
+ šPython 
+ string Ë object:
+  expr = "[1, 2, 3]" 
+  my_list = eval(expr)
+@debug:
+@ import pdb
+  pdb.set_trace()
+@Reversing a list/string:
+  a = [1,2,3,4]
+  a[::-1]
+  [4, 3, 2, 1]
+  or
+  a.reverse()
+@pprintf:
+  from pprint import pprint 
+  pprint(my_dict)
+ Enumerate:
+  for i, item in enumerate(iterable):
+    print i, item
+  Enumerate can also take a second argument. Here is an example:
+  list(enumerate('abc')) 
+  [(0, 'a'), (1, 'b'), (2, 'c')] 
+  list(enumerate('abc', 1)) 
+  [(1, 'a'), (2, 'b'), (3, 'c')]
  
-â˜… Convert from ASCII string encoded in Hex to plain ASCII
- import codecs
- codecs.decode("0a6765740a", "hex")
- 
- 
+ Ternary Operators:
+@ [on_true] if [expression] else [on_false]
+  x, y = 50, 25
+  small = x if x<y else y
+@
+ Deep copy:
+  obj1 = obj2 is reference except string.
+  import copy
+  obj1 = copy.deepcopy(obj2)
