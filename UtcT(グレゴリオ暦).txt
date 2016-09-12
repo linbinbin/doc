@@ -868,3 +868,13 @@ Replace the text in section 1.3.2.4 of formal/00-06-26 and section
              include
              the local time zone information for the UtcT values they
              produce.
+             
+Python‚É‚æ‚èA1970/1/1/0:0‚©‚ç1852/10/15/0:0‚Ü‚Å“ú”ŒvŽZŽ®‚ÍA
+>>> from datetime import datetime
+>>> import time
+>>> dt1=datetime(1582,10,15,0,0)
+>>> dt2=datetime(1970,1,1,0,0)
+>>> dt2-dt1
+datetime.timedelta(141427)
+
+             
