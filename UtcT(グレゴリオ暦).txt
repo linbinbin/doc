@@ -877,4 +877,11 @@ Python‚É‚æ‚èA1970/1/1/0:0‚©‚ç1852/10/15/0:0‚Ü‚Å“ú”ŒvŽZŽ®‚ÍA
 >>> dt2-dt1
 datetime.timedelta(141427)
 
-             
+>>> from datetime import datetime
+>>> import time
+>>> dt1=datetime(1,1,1,0,0)
+>>> dt2=datetime(1970,1,1,0,0)
+>>> dt2-dt1
+datetime.timedelta(719162)
+#define UNIX_EPOCH_START     719163
+
