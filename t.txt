@@ -1,0 +1,1 @@
+gst-launch-1.0 rtspsrc location=rtsp://127.0.0.1:8554/video latency=0 ! decodebin ! autovidosinkgst-play-1.0 rtsp://127.0.0.1:8554/video
