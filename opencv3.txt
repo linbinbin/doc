@@ -1,0 +1,13 @@
+Linux python3 opencv3 install
+
+conda install -c https://conda.anaconda.org/menpo opencv3
+conda install -c https://conda.binstar.org/menpo opencv3
+
+sudo apt-add-repository "deb http://us.archive.ubuntu.com/ubuntu/ xenial main universe"
+sudo apt-get update
+sudo dpkg -i teamviewer_i386.deb
+sudo apt-get install -f
+
+conda install -c asmeurer pango
+
+
